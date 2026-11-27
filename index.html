@@ -3043,10 +3043,8 @@ function enterApp() {
     document.getElementById('userAvatarText').textContent = (APP_STATE.currentUser.namaLengkap || 'A').charAt(0).toUpperCase();
   }
   
-  // Terapkan pengaturan jika sudah ada di cache
-  if (APP_STATE.cache.settings) {
-    applySettingsToUI(APP_STATE.cache.settings);
-  } else {
+  // Pastikan data pengaturan termuat jika belum ada di cache
+  if (!APP_STATE.cache.settings) {
     loadSettingsData();
   }
   
@@ -4866,13 +4864,23 @@ function callBackend(action, payload, callback) {
       return res.text();
     })
     .then(function(text) {
+      let data = null;
       try {
-        const data = JSON.parse(text);
-        if (callback) callback(data);
+        data = JSON.parse(text);
       } catch (parseErr) {
         console.error('Respon server bukan format JSON:', text);
         showToast('Respon server bukan format JSON. Periksa deployment Google Apps Script Anda.', 'error');
-        if (callback) callback({ success: false, message: 'Respon server bukan JSON: ' + text.substring(0, 100) });
+        if (callback) callback({ success: false, message: 'Respon server bukan JSON: ' + (text ? text.substring(0, 100) : '') });
+        return;
+      }
+      
+      // Jalankan callback di luar blok try-catch JSON parsing
+      if (callback) {
+        try {
+          callback(data);
+        } catch (cbErr) {
+          console.error('Error pada eksekusi callback [' + action + ']:', cbErr);
+        }
       }
     })
     .catch(function(err) {
