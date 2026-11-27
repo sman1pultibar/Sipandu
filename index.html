@@ -4,9 +4,1666 @@
   <meta charset="UTF-8">
   <title>Sipandu - Aplikasi Digital Pengelolaan Panitia Ujian Sekolah</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="icon" type="image/png" href="<?= logoLoginUrl ?>">
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1nqJ02h0xff2v_wgAQLAGi2_6KiewIf-k">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <?!= include('css'); ?>
+  <style>
+/* ==============================================================================
+ * SIPANDU - CSS STYLING & PRINT ENGINE
+ * FILOSOFI: Anti-AI Human-Crafted Aesthetic (Deep Navy & Slate)
+ * DUKUNGAN CETAK: Presisi Ukuran Kertas F4/Folio (215x330mm) & A4 (210x297mm)
+ * ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary-950: #020617;
+  --primary-900: #0f172a;
+  --primary-800: #1e293b;
+  --primary-700: #334155;
+  --primary-600: #475569;
+  --primary-500: #64748b;
+  
+  --accent-600: #4338ca;
+  --accent-500: #4f46e5;
+  --accent-100: #e0e7ff;
+  --accent-50: #eef2ff;
+  
+  --emerald-600: #059669;
+  --emerald-500: #10b981;
+  --emerald-50: #ecfdf5;
+  
+  --amber-600: #d97706;
+  --amber-500: #f59e0b;
+  --amber-50: #fffbeb;
+  
+  --rose-600: #e11d48;
+  --rose-500: #f43f5e;
+  --rose-50: #fff1f2;
+  
+  --surface-bg: #f8fafc;
+  --surface-card: #ffffff;
+  --border-color: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  
+  --sidebar-w: 270px;
+  --topbar-h: 68px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+  --shadow-float: 0 20px 25px -5px rgba(15,23,42,0.12), 0 8px 10px -6px rgba(15,23,42,0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--surface-bg);
+  color: var(--text-main);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==============================================================================
+ * 1. HALAMAN LOGIN DEPAN
+ * ============================================================================== */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top right, #1e293b, #0f172a 70%);
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  padding: 40px 32px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.login-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin: 0 auto 16px;
+  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary-900);
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-800);
+  margin-bottom: 6px;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text-main);
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 3px var(--accent-100);
+}
+
+.input-with-icon {
+  padding-right: 44px;
+}
+
+.icon-eye-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-500);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.icon-eye-btn:hover {
+  color: var(--primary-900);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--accent-500);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-600);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+.btn-secondary {
+  background-color: #fff;
+  border-color: var(--border-color);
+  color: var(--primary-700);
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-bg);
+  border-color: var(--primary-500);
+}
+
+.btn-success {
+  background-color: var(--emerald-500);
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: var(--emerald-600);
+}
+
+.btn-danger {
+  background-color: var(--rose-500);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: var(--rose-600);
+}
+
+.btn-block {
+  width: 100%;
+  height: 46px;
+}
+
+/* ==============================================================================
+ * 2. LAYOUT DASHBOARD UTAMA
+ * ============================================================================== */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Navigasi */
+.app-sidebar {
+  width: var(--sidebar-w);
+  background-color: var(--primary-900);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+  height: var(--topbar-h);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.sidebar-brand-text {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #fff;
+}
+
+.sidebar-menu {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-category {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-500);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 12px 10px 4px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 13.5px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+}
+
+.menu-item.active {
+  background: var(--accent-500);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+}
+
+.menu-item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.04);
+}
+
+.user-avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.user-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.user-role {
+  font-size: 11px;
+  color: var(--primary-500);
+}
+
+/* Area Konten Utama */
+.main-wrapper {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-topbar {
+  height: var(--topbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mobile-toggle-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-700);
+}
+
+.page-heading-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-900);
+  letter-spacing: -0.3px;
+}
+
+.content-body {
+  padding: 28px;
+  flex: 1;
+}
+
+/* ==============================================================================
+ * 3. KARTU METRIK & GRID AKSI CEPAT
+ * ============================================================================== */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.metric-card {
+  background: var(--surface-card);
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.metric-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metric-blue { background: #e0e7ff; color: #4338ca; }
+.metric-emerald { background: #d1fae5; color: #059669; }
+.metric-amber { background: #fef3c7; color: #d97706; }
+.metric-rose { background: #ffe4e6; color: #e11d48; }
+
+.metric-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.2;
+}
+
+.metric-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.info-banner {
+  background: linear-gradient(135deg, var(--primary-900), var(--primary-800));
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.info-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.info-desc {
+  font-size: 13.5px;
+  color: #cbd5e1;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-900);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.action-card {
+  background: var(--surface-card);
+  padding: 18px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--primary-800);
+  text-decoration: none;
+}
+
+.action-card:hover {
+  border-color: var(--accent-500);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  color: var(--accent-600);
+}
+
+.action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-700);
+  transition: all 0.2s;
+}
+
+.action-card:hover .action-icon {
+  background: var(--accent-100);
+  color: var(--accent-600);
+}
+
+.action-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ==============================================================================
+ * 4. TABEL RESPODIF & FORM PENGATURAN
+ * ============================================================================== */
+.card {
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.table-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  width: 240px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.select-filter {
+  height: 38px;
+  padding: 0 12px;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  background-color: #fff;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.data-table th {
+  background-color: #f1f5f9;
+  color: var(--primary-800);
+  font-weight: 700;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+  color: var(--primary-900);
+}
+
+.data-table tr:hover {
+  background-color: #f8fafc;
+}
+
+.table-photo-thumb {
+  width: 38px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: #eee;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.badge-blue { background: #e0e7ff; color: #4338ca; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-gray { background: #f1f5f9; color: #475569; }
+
+/* Pagination Controls */
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 4px 4px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-btn {
+  height: 34px;
+  min-width: 34px;
+  padding: 0 8px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--accent-500);
+  color: var(--accent-600);
+}
+
+.page-btn.active {
+  background: var(--accent-500);
+  border-color: var(--accent-500);
+  color: #fff;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Kop Surat Live Preview */
+.kop-surat-preview-box {
+  border: 1.5px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 3px double #0f172a;
+  margin-top: 10px;
+}
+
+.kop-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.kop-center-text {
+  flex: 1;
+  text-align: center;
+}
+
+.kop-line-1 { font-size: 13px; font-weight: 600; text-transform: uppercase; }
+.kop-line-2 { font-size: 16px; font-weight: 800; text-transform: uppercase; color: var(--primary-900); }
+.kop-line-3 { font-size: 12px; color: var(--primary-600); margin-top: 2px; }
+
+/* ==============================================================================
+ * 5. MODAL BOX & DIALOG CUSTOM ANTI-GOOGLE EMBED
+ * ============================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  display: flex;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-dialog {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-900);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-500);
+  font-size: 20px;
+}
+
+.modal-body {
+  padding: 24px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #f8fafc;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  min-width: 300px;
+  max-width: 420px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideInRight 0.3s ease;
+}
+
+.toast-success { background: var(--emerald-600); }
+.toast-error { background: var(--rose-600); }
+.toast-info { background: var(--primary-900); }
+
+/* ==============================================================================
+ * 6. CSS PRINT ENGINE (STANDAR RESMI F4 & A4) - ISOLASI TOTAL ANTI-BERANTAKAN
+ * ============================================================================== */
+.print-container {
+  display: none;
+}
+
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Sembunyikan SELURUH elemen antarmuka Web App saat cetak fisik / PDF */
+  #appView,
+  #loginView,
+  .app-container,
+  .app-sidebar,
+  .app-topbar,
+  .main-wrapper,
+  .content-body,
+  .page-section,
+  .card,
+  .preview-wrapper,
+  #livePrintPreviewContainer,
+  .no-print,
+  .metric-grid,
+  .info-banner,
+  .quick-action-grid,
+  .card-header,
+  .pagination-wrapper,
+  .modal-overlay,
+  .toast-container {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* HANYA tampilkan kontainer dokumen cetak resmi */
+  .print-container,
+  #printContainer {
+    display: block !important;
+    visibility: visible !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .page-break {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  .no-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Universal Print Container Visibility */
+  .grid-kartu-peserta-6,
+  .grid-nomor-meja-12,
+  .grid-kartu-panitia-6,
+  .dokumen-resmi-wrapper,
+  .denah-print-wrapper {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* ==============================================================================
+ * 6B. STYLING DOKUMEN CETAK RESMI (BERLAKU UNTUK LIVE PREVIEW & @MEDIA PRINT)
+ * ============================================================================== */
+.doc-notice-banner {
+  background: #fef9c3;
+  border: 1px solid #fef08a;
+  color: #854d0e;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.doc-notice-banner.notice-blue {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+
+/* 1. Kartu Peserta Ujian: 6 Kartu Simetris per Lembar A4 (6.5cm x 9.5cm) */
+.grid-kartu-peserta,
+.grid-kartu-peserta-6 {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 4mm !important;
+  padding: 2mm !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.kartu-item,
+.kartu-cut-wrapper {
+  border: 1px dashed #94a3b8 !important;
+  padding: 2.5mm !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+.kartu-box-inner {
+  border: 1.5px solid #0f172a !important;
+  border-radius: 4px !important;
+  padding: 5px 8px !important;
+  height: 64mm !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  background: #fff !important;
+}
+
+.kp-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.kp-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.kp-header-text {
+  flex: 1;
+  text-align: center;
+  color: #0f172a;
+  line-height: 1.15;
+}
+.kp-title-main { font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; }
+.kp-title-sub { font-size: 9.5px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; }
+.kp-title-school { font-size: 8.5px; font-weight: 700; text-transform: uppercase; }
+
+.kp-body {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  align-items: flex-start;
+  margin-top: 2px;
+}
+
+.kp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5px;
+  line-height: 1.25;
+}
+.kp-table td {
+  padding: 1.5px 0;
+  vertical-align: top;
+}
+.kp-td-label {
+  width: 74px;
+  color: #0f172a;
+  font-weight: 600;
+}
+.kp-td-val {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.kp-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.kp-foto-box {
+  width: 20mm;
+  height: 26mm;
+  border: 1px solid #94a3b8;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: #64748b;
+  text-align: center;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+.kp-foto-img {
+  width: 20mm;
+  height: 26mm;
+  object-fit: cover;
+  border: 1px solid #0f172a;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.kp-ttd-block {
+  text-align: center;
+  font-size: 8.5px;
+  line-height: 1.15;
+  min-width: 130px;
+}
+.kp-ttd-img {
+  max-height: 32px;
+  max-width: 110px;
+  object-fit: contain;
+  margin: 1px auto;
+  display: block;
+}
+.kp-ttd-name {
+  font-weight: 800;
+  text-decoration: underline;
+  color: #0f172a;
+}
+.kp-ttd-nip {
+  font-size: 8px;
+  color: #334155;
+}
+
+/* 2. Nomor Meja Peserta: 12 Kartu Simetris per Lembar A4 (3 Kolom x 4 Baris) */
+.grid-nomor-meja,
+.grid-nomor-meja-12 {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 3mm !important;
+  padding: 1.5mm !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.meja-item,
+.meja-cut-wrapper {
+  border: 1px dashed #94a3b8 !important;
+  padding: 1.5mm !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+.meja-box-inner {
+  border: 1.5px solid #0f172a !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  height: 60mm !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  background: #fff !important;
+  text-align: center !important;
+}
+
+.meja-header-navy {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 4px 2px;
+  text-align: center;
+}
+.meja-header-label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.meja-header-school {
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.meja-number-xl {
+  font-size: 34px;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1;
+  margin: 3px 0 1px;
+}
+
+.meja-nopes-badge {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 3px;
+  padding: 1.5px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #1d4ed8;
+  display: inline-block;
+  margin: 0 auto 2px;
+}
+
+.meja-nama-text {
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #0f172a;
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.meja-footer-bar {
+  border-top: 1px solid #cbd5e1;
+  padding: 2.5px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.5px;
+  font-weight: 600;
+  color: #475569;
+  background: #f8fafc;
+}
+.meja-footer-ruang {
+  color: #1d4ed8;
+  font-weight: 800;
+}
+
+/* 3. Kartu Panitia & Pengawas: ID Card Standar B2 (6 Kartu per Lembar A4 Portrait) */
+.grid-kartu-panitia-6 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5mm;
+  padding: 3mm;
+  box-sizing: border-box;
+}
+
+.panitia-cut-wrapper {
+  border: 1px dashed #94a3b8;
+  padding: 2mm;
+  box-sizing: border-box;
+  background: #fff;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.panitia-box-inner {
+  border: 1.5px solid #0f172a;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 86mm;
+  width: 62mm;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  text-align: center;
+}
+
+.panitia-header-navy {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  justify-content: center;
+}
+.panitia-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+.panitia-title-school {
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #fff;
+}
+.panitia-title-exam {
+  font-size: 7.5px;
+  font-weight: 600;
+  color: #93c5fd;
+  text-transform: uppercase;
+}
+
+.panitia-badge-gold {
+  background: #f59e0b;
+  color: #0f172a;
+  font-weight: 900;
+  font-size: 10px;
+  border-radius: 9999px;
+  padding: 2px 14px;
+  display: inline-block;
+  margin: 4px auto 2px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.panitia-badge-green {
+  background: #10b981;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 10px;
+  border-radius: 9999px;
+  padding: 2px 14px;
+  display: inline-block;
+  margin: 4px auto 2px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.panitia-foto-box {
+  width: 22mm;
+  height: 28mm;
+  border: 1px solid #94a3b8;
+  border-radius: 2px;
+  margin: 2px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: #64748b;
+  background: #f8fafc;
+}
+.panitia-foto-img {
+  width: 22mm;
+  height: 28mm;
+  object-fit: cover;
+  border: 1px solid #0f172a;
+  border-radius: 2px;
+  margin: 2px auto;
+  display: block;
+}
+
+.panitia-nama {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 2px;
+}
+.panitia-nip {
+  font-size: 8.5px;
+  color: #475569;
+}
+
+.panitia-footer {
+  font-size: 8px;
+  line-height: 1.15;
+  padding: 0 4px 4px;
+}
+.panitia-ttd-img {
+  max-height: 26px;
+  max-width: 90px;
+  object-fit: contain;
+  margin: 1px auto;
+  display: block;
+}
+
+/* 4. Format Dokumen Administrasi Resmi (Daftar Hadir & Berita Acara) */
+.dokumen-resmi-wrapper {
+  padding: 4mm 6mm;
+  box-sizing: border-box;
+}
+
+.kop-dinas-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px double #000;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.kop-dinas-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+.kop-dinas-text {
+  text-align: center;
+  flex: 1;
+  line-height: 1.25;
+}
+
+.doc-info-blue-box {
+  background: #f0f7ff;
+  border: 1px solid #bae6fd;
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.tabel-daftar-hadir,
+.tabel-dokumen-cetak {
+  width: 100%;
+  border-collapse: collapse !important;
+  font-size: 11px;
+  margin-top: 10px;
+  background: #ffffff;
+}
+.tabel-daftar-hadir th,
+.tabel-daftar-hadir td,
+.tabel-dokumen-cetak th,
+.tabel-dokumen-cetak td {
+  border: 1px solid #000000 !important;
+  padding: 6px 8px;
+  color: #000000;
+  box-sizing: border-box;
+}
+.tabel-daftar-hadir th,
+.tabel-dokumen-cetak th {
+  background: #f1f5f9;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.rekap-kehadiran-box {
+  border: 1px solid #000;
+  border-radius: 2px;
+  padding: 6px 10px;
+  font-size: 10px;
+  width: 240px;
+  line-height: 1.45;
+}
+
+.catatan-kejadian-box {
+  border: 1.5px solid #000;
+  min-height: 120px;
+  padding: 8px;
+  margin: 6px 0 12px;
+  background: #fff;
+}
+
+/* 5. Denah Ruang Ujian */
+.denah-print-wrapper {
+  padding: 3mm 5mm;
+  box-sizing: border-box;
+}
+
+.denah-papan-tulis {
+  border: 2px solid #000;
+  padding: 6px 14px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 11.5px;
+  width: 72%;
+  margin: 8px auto 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: #fff;
+}
+
+.denah-pengawas-row {
+  display: flex;
+  margin-bottom: 12px;
+}
+.denah-meja-pengawas {
+  border: 2px solid #000;
+  padding: 5px 20px;
+  font-weight: 800;
+  font-size: 11px;
+  background: #fffbeb;
+  text-transform: uppercase;
+}
+
+.denah-meja-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.denah-meja-cell {
+  border: 1.5px solid #0f172a;
+  border-radius: 4px;
+  padding: 5px 6px;
+  text-align: center;
+  background: #fff;
+  box-sizing: border-box;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.denah-cell-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.denah-pill-meja {
+  background: #0f172a;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.denah-pill-kelas {
+  color: #1d4ed8;
+  font-size: 9px;
+  font-weight: 800;
+}
+.denah-cell-nopes {
+  color: #1d4ed8;
+  font-size: 10px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+.denah-cell-nama {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.denah-footer-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 10.5px;
+  margin-top: 14px;
+}
+
+/* ==============================================================================
+ * 7. ATURAN UKURAN KERTAS KHUSUS F4 DAN A4
+ * ============================================================================== */
+@page {
+  /* Default Folio / F4 Standar Sekolah Indonesia */
+  size: 215mm 330mm;
+  margin: 10mm;
+}
+
+body.print-paper-a4 {
+  /* Dynamic switch via body class */
+}
+
+@media print {
+  body.print-paper-a4 {
+    size: 210mm 297mm;
+  }
+}
+
+/* ==============================================================================
+ * 8. ANIMASI & RESPONSIVE TWEAKS (MOBILE & TABLET)
+ * ============================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 1024px) {
+  .app-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .app-sidebar.show {
+    transform: translateX(0);
+  }
+  
+  .main-wrapper {
+    margin-left: 0;
+  }
+  
+  .mobile-toggle-btn {
+    display: inline-flex;
+  }
+  
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 90;
+    display: none;
+  }
+  
+  .sidebar-backdrop.show {
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .content-body {
+    padding: 16px;
+  }
+  
+  .metric-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .metric-card {
+    padding: 14px;
+    gap: 10px;
+  }
+  
+  .metric-val {
+    font-size: 20px;
+  }
+  
+  .quick-action-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+/* ==============================================================================
+ * 9. SIPANDU v1.1 - TAMBAHAN STYLE (VERSION BADGE, LIVE PREVIEW, DROPZONE)
+ * ============================================================================== */
+.version-badge {
+  display: inline-block;
+  background: var(--accent-500);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.5px;
+}
+
+.preview-wrapper {
+  background: #334155;
+  border-radius: var(--radius-lg);
+  padding: 24px 16px;
+  margin-top: 20px;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.25);
+  overflow-x: auto;
+  text-align: center;
+  border: 1px solid var(--primary-700);
+}
+
+.preview-paper {
+  background: #ffffff;
+  display: inline-block;
+  text-align: left;
+  width: 215mm;
+  min-height: 300mm;
+  padding: 10mm;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  border-radius: 2px;
+  color: #000;
+  transform-origin: top center;
+}
+
+@media (max-width: 960px) {
+  .preview-paper {
+    width: 100%;
+    min-height: auto;
+    padding: 15px;
+  }
+}
+
+.excel-dropzone {
+  border: 2px dashed var(--accent-500);
+  border-radius: var(--radius-md);
+  padding: 28px 20px;
+  text-align: center;
+  background: var(--accent-50);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.excel-dropzone:hover {
+  background: var(--accent-100);
+}
+
+.danger-zone-card {
+  border: 1.5px solid var(--rose-500);
+  background: var(--rose-50);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+</style>
 </head>
 <body>
 
@@ -16,7 +1673,7 @@
   <div id="loginView" class="login-wrapper">
     <div class="login-card">
       <div class="login-header">
-        <img id="loginLogoImg" src="<?= logoLoginUrl ?>" alt="Logo Sekolah" class="login-logo">
+        <img id="loginLogoImg" src="https://lh3.googleusercontent.com/d/1nqJ02h0xff2v_wgAQLAGi2_6KiewIf-k" alt="Logo Sekolah" class="login-logo">
         <h1 class="login-title">SIPANDU</h1>
         <p class="login-subtitle">Aplikasi Digital Pengelolaan Panitia Ujian Sekolah</p>
       </div>
@@ -66,7 +1723,7 @@
     <!-- Bilah Kiri: Navigasi Menu Sidebar -->
     <aside id="appSidebar" class="app-sidebar">
       <div class="sidebar-header">
-        <img id="sidebarLogoImg" src="<?= logoLoginUrl ?>" alt="Logo" class="sidebar-brand-logo">
+        <img id="sidebarLogoImg" src="https://lh3.googleusercontent.com/d/1nqJ02h0xff2v_wgAQLAGi2_6KiewIf-k" alt="Logo" class="sidebar-brand-logo">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="sidebar-brand-text">SIPANDU</span>
           <span class="version-badge">v1.6</span>
@@ -378,14 +2035,14 @@
                     <span style="font-size: 11.5px; color: var(--accent-600); font-weight: 500;">Format Resmi Sekolah</span>
                   </label>
                   <div class="kop-surat-preview-box">
-                    <img id="prevKopLogoDinas" src="<?= logoLoginUrl ?>" class="kop-logo" alt="Logo Dinas">
+                    <img id="prevKopLogoDinas" src="https://lh3.googleusercontent.com/d/1nqJ02h0xff2v_wgAQLAGi2_6KiewIf-k" class="kop-logo" alt="Logo Dinas">
                     <div class="kop-center-text">
                       <div id="prevKopHeader1" class="kop-line-1">PEMERINTAH PROVINSI / DAERAH</div>
                       <div id="prevKopHeader2" class="kop-line-1">DINAS PENDIDIKAN DAN KEBUDAYAAN</div>
                       <div id="prevKopNamaSekolah" class="kop-line-2">SMK NEGERI 1 INDONESIA</div>
                       <div id="prevKopNamaUjian" class="kop-line-3">ASESMEN AKHIR SEMESTER GENAP • TAHUN AJARAN 2026/2027</div>
                     </div>
-                    <img id="prevKopLogoSekolah" src="<?= logoLoginUrl ?>" class="kop-logo" alt="Logo Sekolah">
+                    <img id="prevKopLogoSekolah" src="https://lh3.googleusercontent.com/d/1nqJ02h0xff2v_wgAQLAGi2_6KiewIf-k" class="kop-logo" alt="Logo Sekolah">
                   </div>
                 </div>
               </div>
@@ -1178,6 +2835,2079 @@
   <div id="printContainer" class="print-container"></div>
 
   <!-- Sertakan Berkas JavaScript Modular -->
-  <?!= include('js'); ?>
+  <script>
+/**
+ * ==============================================================================
+ * SIPANDU - FRONTEND ENGINE & CLIENT-SIDE CACHE
+ * STANDAR: ZettBOT Architecture (Zero-Lag Navigation, Anti-Nested Backticks)
+ * ==============================================================================
+ */
+
+// State Global & In-Memory Client Cache
+const APP_STATE = {
+  currentUser: null,
+  activePage: 'dashboard',
+  paperSize: 'f4',
+  printOptions: {
+    ttdStempel: false,
+    ttdImage: '',
+    tampilkanFoto: false,
+    denahLayout: 'spiral',
+    denahStart: 'kiri',
+    denahPengawas: 'kanan'
+  },
+  cache: {
+    dashboard: null,
+    settings: null,
+    students: {}, // key: page_search_kelas
+    panitia: null,
+    pengawas: null,
+    distribusi: null
+  },
+  currentStudentPage: 1,
+  currentStudentLimit: 15,
+  searchTimer: null,
+  excelTarget: 'siswa',
+  parsedExcelData: null
+};
+
+// ==============================================================================
+// MODAL DIALOG ENGINE KUSTOM (ANTI-EMBED POPUP BROWSER)
+// ==============================================================================
+let activeConfirmCallback = null;
+
+function showConfirmDialog(config) {
+  // config: { title, message, confirmText, confirmType, onConfirm }
+  const modal = document.getElementById('universalConfirmModal');
+  if (!modal) return;
+  
+  document.getElementById('confirmModalTitle').textContent = config.title || 'Konfirmasi Tindakan';
+  document.getElementById('confirmModalMessage').innerHTML = config.message || 'Apakah Anda yakin ingin melanjutkan tindakan ini?';
+  
+  const submitBtn = document.getElementById('confirmModalSubmitBtn');
+  submitBtn.textContent = config.confirmText || 'Ya, Lanjutkan';
+  
+  const type = config.confirmType || 'danger'; // 'danger' | 'primary' | 'warning'
+  submitBtn.className = 'btn btn-' + (type === 'primary' ? 'primary' : (type === 'warning' ? 'secondary' : 'danger'));
+  
+  const iconBox = document.getElementById('confirmModalIconBox');
+  const iconDanger = document.getElementById('confirmModalIconDanger');
+  const iconPrimary = document.getElementById('confirmModalIconPrimary');
+  const iconWarning = document.getElementById('confirmModalIconWarning');
+  
+  iconDanger.style.display = 'none';
+  iconPrimary.style.display = 'none';
+  iconWarning.style.display = 'none';
+  
+  if (type === 'primary') {
+    iconBox.style.background = '#eef2ff';
+    iconBox.style.color = 'var(--accent-600)';
+    iconPrimary.style.display = 'block';
+  } else if (type === 'warning') {
+    iconBox.style.background = '#fef3c7';
+    iconBox.style.color = '#d97706';
+    iconWarning.style.display = 'block';
+  } else {
+    iconBox.style.background = '#ffe4e6';
+    iconBox.style.color = 'var(--rose-600)';
+    iconDanger.style.display = 'block';
+  }
+  
+  activeConfirmCallback = config.onConfirm;
+  openModal('universalConfirmModal');
+}
+
+function closeConfirmDialog() {
+  activeConfirmCallback = null;
+  closeModal('universalConfirmModal');
+}
+
+function openEditKursiModal(idDist, oldRuang, oldMeja) {
+  document.getElementById('promptDistId').value = idDist || '';
+  document.getElementById('promptNamaRuang').value = oldRuang || '';
+  document.getElementById('promptNoMeja').value = oldMeja || 1;
+  openModal('customPromptModal');
+}
+
+function handleCustomPromptSubmit(event) {
+  event.preventDefault();
+  const idDist = document.getElementById('promptDistId').value;
+  const newRuang = document.getElementById('promptNamaRuang').value.trim();
+  const newMeja = parseInt(document.getElementById('promptNoMeja').value, 10) || 1;
+  
+  if (!newRuang) {
+    showToast('Nama ruang ujian wajib diisi.', 'error');
+    return;
+  }
+  
+  closeModal('customPromptModal');
+  showToast('Memperbarui penataan kursi...', 'info');
+  
+  callBackend('updateDistribusiKursi', {
+    idDistribusi: idDist,
+    namaRuang: newRuang,
+    noMeja: newMeja
+  }, function(res) {
+    if (res && res.success) {
+      showToast(res.message, 'success');
+      fetchDistribusiData();
+    } else {
+      showToast('Gagal mengubah posisi kursi.', 'error');
+    }
+  });
+}
+
+// ==============================================================================
+// 1. INISIALISASI & NAVIGASI HALAMAN
+// ==============================================================================
+document.addEventListener('DOMContentLoaded', function() {
+  // Pasang listener tombol konfirmasi universal
+  const confBtn = document.getElementById('confirmModalSubmitBtn');
+  if (confBtn) {
+    confBtn.onclick = function() {
+      const cb = activeConfirmCallback;
+      closeConfirmDialog();
+      if (typeof cb === 'function') {
+        cb();
+      }
+    };
+  }
+
+  // Cek apakah ada sesi login tersimpan
+  const savedUser = sessionStorage.getItem('sipandu_user');
+  if (savedUser) {
+    try {
+      APP_STATE.currentUser = JSON.parse(savedUser);
+      enterApp();
+    } catch (e) {
+      showLogin();
+    }
+  } else {
+    showLogin();
+  }
+});
+
+function showLogin() {
+  document.getElementById('loginView').style.display = 'flex';
+  document.getElementById('appView').style.display = 'none';
+}
+
+function enterApp() {
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('appView').style.display = 'flex';
+  
+  if (APP_STATE.currentUser) {
+    document.getElementById('userFullName').textContent = APP_STATE.currentUser.namaLengkap || 'Administrator';
+    document.getElementById('userAvatarText').textContent = (APP_STATE.currentUser.namaLengkap || 'A').charAt(0).toUpperCase();
+  }
+  
+  // Muat data awal (Dashboard & Pengaturan)
+  loadSettingsData();
+  navigateTo('dashboard');
+}
+
+function navigateTo(pageId, menuElem) {
+  APP_STATE.activePage = pageId;
+  
+  // Update styling menu aktif
+  const menuItems = document.querySelectorAll('.sidebar-menu .menu-item');
+  menuItems.forEach(function(item) { item.classList.remove('active'); });
+  if (menuElem) {
+    menuElem.classList.add('active');
+  }
+  
+  // Sembunyikan seluruh section halaman
+  const sections = document.querySelectorAll('.page-section');
+  sections.forEach(function(sec) { sec.style.display = 'none'; });
+  
+  // Tampilkan section target
+  const targetSection = document.getElementById('section-' + pageId);
+  if (targetSection) {
+    targetSection.style.display = 'block';
+  }
+  
+  // Update Judul Topbar
+  const titles = {
+    dashboard: 'Dashboard Utama',
+    pengaturan: 'Pengaturan Ujian & Identitas',
+    siswa: 'Master Data Siswa',
+    panitia: 'Master Data Panitia',
+    pengawas: 'Master Data Pengawas Ruang',
+    ruang: 'Pembagian Ruang Ujian',
+    cetak: 'Pusat Cetak Administrasi Ujian',
+    backup: 'Pencadangan & Pemulihan (JSON)',
+    password: 'Ganti Kata Sandi Admin'
+  };
+  document.getElementById('pageTitle').textContent = titles[pageId] || 'Sipandu';
+  
+  // Tutup sidebar mobile jika sedang terbuka
+  closeMobileSidebar();
+  
+  // Muat data sesuai menu (dengan Cache In-Memory)
+  if (pageId === 'dashboard') loadDashboardData();
+  else if (pageId === 'pengaturan') renderSettingsForm();
+  else if (pageId === 'siswa') fetchStudentsData(1);
+  else if (pageId === 'panitia') loadPanitiaData();
+  else if (pageId === 'pengawas') loadPengawasData();
+  else if (pageId === 'ruang') fetchDistribusiData();
+  else if (pageId === 'cetak') loadCetakOptions();
+}
+
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('appSidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  sidebar.classList.toggle('show');
+  backdrop.classList.toggle('show');
+}
+
+function closeMobileSidebar() {
+  const sidebar = document.getElementById('appSidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  if (sidebar) sidebar.classList.remove('show');
+  if (backdrop) backdrop.classList.remove('show');
+}
+
+function refreshCurrentData() {
+  // Kosongkan cache untuk menu yang aktif dan reload
+  if (APP_STATE.activePage === 'dashboard') {
+    APP_STATE.cache.dashboard = null;
+    loadDashboardData();
+  } else if (APP_STATE.activePage === 'pengaturan') {
+    APP_STATE.cache.settings = null;
+    loadSettingsData(true);
+  } else if (APP_STATE.activePage === 'siswa') {
+    APP_STATE.cache.students = {};
+    fetchStudentsData(APP_STATE.currentStudentPage);
+  } else if (APP_STATE.activePage === 'panitia') {
+    APP_STATE.cache.panitia = null;
+    loadPanitiaData();
+  } else if (APP_STATE.activePage === 'pengawas') {
+    APP_STATE.cache.pengawas = null;
+    loadPengawasData();
+  } else if (APP_STATE.activePage === 'ruang') {
+    APP_STATE.cache.distribusi = null;
+    fetchDistribusiData();
+  }
+  showToast('Data berhasil disegarkan dari server.', 'info');
+}
+
+// ==============================================================================
+// 2. AUTENTIKASI, TOGGLE PASSWORD & LOGOUT KUSTOM
+// ==============================================================================
+function togglePasswordVisibility(inputId, eyeIconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(eyeIconId);
+  if (!input) return;
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (icon) {
+      icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+    }
+  } else {
+    input.type = 'password';
+    if (icon) {
+      icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+    }
+  }
+}
+
+function handleLoginSubmit(event) {
+  event.preventDefault();
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginSubmitBtn');
+  
+  if (!username || !password) {
+    showToast('Silakan isi username dan password.', 'error');
+    return;
+  }
+  
+  btn.disabled = true;
+  btn.innerHTML = '<span>Memverifikasi...</span>';
+  
+  callBackend('login', { username: username, password: password }, function(res) {
+    btn.disabled = false;
+    btn.innerHTML = '<span>Masuk ke Sistem</span>';
+    
+    if (res && res.success) {
+      APP_STATE.currentUser = res.user;
+      sessionStorage.setItem('sipandu_user', JSON.stringify(res.user));
+      showToast('Selamat datang, ' + res.user.namaLengkap, 'success');
+      enterApp();
+    } else {
+      showToast((res && res.message) ? res.message : 'Login gagal.', 'error');
+    }
+  });
+}
+
+function showLogoutModal() {
+  openModal('logoutModal');
+}
+
+function executeLogout() {
+  closeModal('logoutModal');
+  APP_STATE.currentUser = null;
+  sessionStorage.removeItem('sipandu_user');
+  APP_STATE.cache = { dashboard: null, settings: null, students: {}, panitia: null, pengawas: null, distribusi: null };
+  document.getElementById('loginPassword').value = '';
+  showLogin();
+  showToast('Anda telah berhasil keluar dari sistem.', 'info');
+}
+
+function handleChangePasswordSubmit(event) {
+  event.preventDefault();
+  const oldPass = document.getElementById('oldPassword').value;
+  const newPass = document.getElementById('newPassword').value;
+  const confPass = document.getElementById('confirmPassword').value;
+  
+  if (newPass !== confPass) {
+    showToast('Konfirmasi kata sandi baru tidak cocok.', 'error');
+    return;
+  }
+  
+  callBackend('changePassword', {
+    username: APP_STATE.currentUser.username,
+    oldPassword: oldPass,
+    newPassword: newPass
+  }, function(res) {
+    if (res && res.success) {
+      showToast(res.message, 'success');
+      document.getElementById('oldPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+    } else {
+      showToast((res && res.message) ? res.message : 'Gagal memperbarui password.', 'error');
+    }
+  });
+}
+
+// ==============================================================================
+// 3. DASHBOARD METRIK & QUICK PRINT
+// ==============================================================================
+function loadDashboardData() {
+  if (APP_STATE.cache.dashboard) {
+    renderDashboardUI(APP_STATE.cache.dashboard);
+    return;
+  }
+  
+  callBackend('getDashboard', null, function(res) {
+    if (res && res.success) {
+      APP_STATE.cache.dashboard = res;
+      renderDashboardUI(res);
+    }
+  });
+}
+
+function renderDashboardUI(data) {
+  const stats = data.stats || {};
+  document.getElementById('dashTotalSiswa').textContent = stats.totalSiswa || 0;
+  document.getElementById('dashTotalRuang').textContent = stats.totalRuang || 0;
+  document.getElementById('dashTotalPanitia').textContent = stats.totalPanitia || 0;
+  document.getElementById('dashTotalPengawas').textContent = stats.totalPengawas || 0;
+  
+  const set = data.settings || {};
+  if (set.NamaUjian) document.getElementById('dashBannerNamaUjian').textContent = set.NamaUjian;
+  const infoText = 'Tahun Ajaran ' + (set.TahunAjaran || '-') + ' • Semester ' + (set.Semester || '-') + ' • ' + (set.NamaSekolah || '-');
+  document.getElementById('dashBannerInfoDetail').textContent = infoText;
+}
+
+function quickPrint(jenis) {
+  navigateTo('cetak');
+  document.getElementById('cetakJenisDokumen').value = jenis;
+  handleDokumenTypeChange();
+}
+
+// ==============================================================================
+// 4. PENGATURAN IDENTITAS SEKOLAH & LIVE KOP SURAT
+// ==============================================================================
+function loadSettingsData(forceRender) {
+  if (APP_STATE.cache.settings && !forceRender) {
+    return;
+  }
+  callBackend('getSettings', null, function(res) {
+    if (res && res.success) {
+      APP_STATE.cache.settings = res.settings;
+      renderSettingsForm();
+    }
+  });
+}
+
+function renderSettingsForm() {
+  const s = APP_STATE.cache.settings || {};
+  if (!s.NamaSekolah) {
+    loadSettingsData(true);
+    return;
+  }
+  
+  if (document.getElementById('cfgHeaderKop1')) document.getElementById('cfgHeaderKop1').value = s.HeaderKop1 || 'PEMERINTAH PROVINSI / DAERAH';
+  if (document.getElementById('cfgHeaderKop2')) document.getElementById('cfgHeaderKop2').value = s.HeaderKop2 || 'DINAS PENDIDIKAN DAN KEBUDAYAAN';
+  document.getElementById('cfgNamaSekolah').value = s.NamaSekolah || '';
+  document.getElementById('cfgTahunAjaran').value = s.TahunAjaran || '';
+  document.getElementById('cfgSemester').value = s.Semester || 'Genap';
+  document.getElementById('cfgNamaUjian').value = s.NamaUjian || '';
+  document.getElementById('cfgKapasitasRuang').value = s.KapasitasRuang || 20;
+  document.getElementById('cfgPrefixNoPeserta').value = s.PrefixNoPeserta || 'UJN-2026-';
+  document.getElementById('cfgSistemSesi').value = s.SistemSesi || 'Tunggal';
+  document.getElementById('cfgTempatTanggal').value = s.TempatTanggal || '';
+  document.getElementById('cfgKepalaSekolah').value = s.KepalaSekolah || '';
+  document.getElementById('cfgNipKepalaSekolah').value = s.NipKepalaSekolah || '';
+  document.getElementById('cfgKetuaPanitia').value = s.KetuaPanitia || '';
+  document.getElementById('cfgNipKetuaPanitia').value = s.NipKetuaPanitia || '';
+  document.getElementById('cfgLogoDinas').value = s.LogoDinas || '';
+  document.getElementById('cfgLogoSekolah').value = s.LogoSekolah || '';
+  
+  updateKopPreview();
+}
+
+function updateKopPreview() {
+  const h1 = document.getElementById('cfgHeaderKop1') ? (document.getElementById('cfgHeaderKop1').value || 'PEMERINTAH PROVINSI / DAERAH') : 'PEMERINTAH PROVINSI / DAERAH';
+  const h2 = document.getElementById('cfgHeaderKop2') ? (document.getElementById('cfgHeaderKop2').value || 'DINAS PENDIDIKAN DAN KEBUDAYAAN') : 'DINAS PENDIDIKAN DAN KEBUDAYAAN';
+  const namaSekolah = document.getElementById('cfgNamaSekolah').value || 'NAMA SEKOLAH ANDA';
+  const namaUjian = document.getElementById('cfgNamaUjian').value || 'ASESMEN AKHIR SEMESTER';
+  const thnAjar = document.getElementById('cfgTahunAjaran').value || '2026/2027';
+  const smt = document.getElementById('cfgSemester').value || 'Genap';
+  const logoDinas = document.getElementById('cfgLogoDinas').value;
+  const logoSekolah = document.getElementById('cfgLogoSekolah').value;
+  
+  if (document.getElementById('prevKopHeader1')) document.getElementById('prevKopHeader1').textContent = h1.toUpperCase();
+  if (document.getElementById('prevKopHeader2')) document.getElementById('prevKopHeader2').textContent = h2.toUpperCase();
+  document.getElementById('prevKopNamaSekolah').textContent = namaSekolah.toUpperCase();
+  document.getElementById('prevKopNamaUjian').textContent = namaUjian.toUpperCase() + ' • SEMESTER ' + smt.toUpperCase() + ' T.A. ' + thnAjar;
+  
+  if (logoDinas) document.getElementById('prevKopLogoDinas').src = formatLh3(logoDinas);
+  if (logoSekolah) document.getElementById('prevKopLogoSekolah').src = formatLh3(logoSekolah);
+}
+
+function handleSaveSettings(event) {
+  event.preventDefault();
+  const payload = {
+    HeaderKop1: document.getElementById('cfgHeaderKop1') ? document.getElementById('cfgHeaderKop1').value : 'PEMERINTAH PROVINSI / DAERAH',
+    HeaderKop2: document.getElementById('cfgHeaderKop2') ? document.getElementById('cfgHeaderKop2').value : 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
+    NamaSekolah: document.getElementById('cfgNamaSekolah').value,
+    TahunAjaran: document.getElementById('cfgTahunAjaran').value,
+    Semester: document.getElementById('cfgSemester').value,
+    NamaUjian: document.getElementById('cfgNamaUjian').value,
+    KapasitasRuang: parseInt(document.getElementById('cfgKapasitasRuang').value, 10) || 20,
+    PrefixNoPeserta: document.getElementById('cfgPrefixNoPeserta').value,
+    SistemSesi: document.getElementById('cfgSistemSesi').value,
+    TempatTanggal: document.getElementById('cfgTempatTanggal').value,
+    KepalaSekolah: document.getElementById('cfgKepalaSekolah').value,
+    NipKepalaSekolah: document.getElementById('cfgNipKepalaSekolah').value,
+    KetuaPanitia: document.getElementById('cfgKetuaPanitia').value,
+    NipKetuaPanitia: document.getElementById('cfgNipKetuaPanitia').value,
+    LogoDinas: document.getElementById('cfgLogoDinas').value,
+    LogoSekolah: document.getElementById('cfgLogoSekolah').value
+  };
+  
+  callBackend('saveSettings', payload, function(res) {
+    if (res && res.success) {
+      APP_STATE.cache.settings = payload;
+      APP_STATE.cache.dashboard = null; // reset cache dashboard agar refresh
+      showToast('Pengaturan ujian berhasil disimpan.', 'success');
+      updateKopPreview();
+    } else {
+      showToast((res && res.message) ? res.message : 'Gagal menyimpan pengaturan.', 'error');
+    }
+  });
+}
+
+// ==============================================================================
+// 5. MASTER DATA SISWA (SEARCH DEBOUNCE, PAGINATION & CRUD)
+// ==============================================================================
+function debounceSearchSiswa() {
+  clearTimeout(APP_STATE.searchTimer);
+  APP_STATE.searchTimer = setTimeout(function() {
+    fetchStudentsData(1);
+  }, 350);
+}
+
+function fetchStudentsData(page) {
+  APP_STATE.currentStudentPage = page || 1;
+  const searchVal = document.getElementById('searchSiswa').value.trim();
+  const kelasVal = document.getElementById('filterKelasSiswa').value;
+  const cacheKey = 'p' + APP_STATE.currentStudentPage + '_s' + searchVal + '_k' + kelasVal;
+  
+  if (APP_STATE.cache.students[cacheKey]) {
+    renderStudentsTable(APP_STATE.cache.students[cacheKey]);
+    return;
+  }
+  
+  const payload = {
+    page: APP_STATE.currentStudentPage,
+    limit: APP_STATE.currentStudentLimit,
+    search: searchVal,
+    kelas: kelasVal
+  };
+  
+  callBackend('getStudents', payload, function(res) {
+    if (res && res.success) {
+      APP_STATE.cache.students[cacheKey] = res;
+      renderStudentsTable(res);
+      updateClassFilterOptions(res.classes);
+    }
+  });
+}
+
+function updateClassFilterOptions(classes) {
+  const select = document.getElementById('filterKelasSiswa');
+  const currentVal = select.value;
+  let html = '<option value="">Semua Kelas</option>';
+  if (classes && classes.length) {
+    classes.forEach(function(c) {
+      const selected = (c === currentVal) ? ' selected' : '';
+      html += '<option value="' + escapeHtml(c) + '"' + selected + '>' + escapeHtml(c) + '</option>';
+    });
+  }
+  select.innerHTML = html;
+}
+
+function renderStudentsTable(data) {
+  const tbody = document.getElementById('siswaTableBody');
+  const items = data.data || [];
+  
+  if (items.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">Tidak ada data siswa ditemukan.</td></tr>';
+    document.getElementById('siswaPaginationInfo').textContent = 'Menampilkan 0 dari 0 siswa';
+    document.getElementById('siswaPaginationBtns').innerHTML = '';
+    return;
+  }
+  
+  let rowsHtml = '';
+  items.forEach(function(s) {
+    rowsHtml += '<tr>';
+    rowsHtml += '<td><img src="' + formatLh3(s.fotoUrl) + '" class="table-photo-thumb" alt="Foto"></td>';
+    rowsHtml += '<td><span class="badge badge-blue">' + escapeHtml(s.noPeserta || '-') + '</span></td>';
+    rowsHtml += '<td><strong>' + escapeHtml(s.nisn || '-') + '</strong><br><span style="color:var(--text-muted); font-size:11.5px;">' + escapeHtml(s.nis || '') + '</span></td>';
+    rowsHtml += '<td><strong style="color:var(--primary-900);">' + escapeHtml(s.namaSiswa) + '</strong></td>';
+    rowsHtml += '<td><span class="badge badge-green">' + escapeHtml(s.kelas) + '</span></td>';
+    rowsHtml += '<td>' + escapeHtml(s.jenisKelamin || '-') + '</td>';
+    rowsHtml += '<td style="text-align: center;">';
+    rowsHtml += '<button class="btn btn-secondary" style="padding: 4px 8px; margin-right: 4px;" onclick=\'editStudent(' + JSON.stringify(s) + ')\' title="Ubah">&#9998;</button>';
+    rowsHtml += '<button class="btn btn-danger" style="padding: 4px 8px;" onclick="deleteStudent(\'' + s.idSiswa + '\')" title="Hapus">&times;</button>';
+    rowsHtml += '</td>';
+    rowsHtml += '</tr>';
+  });
+  tbody.innerHTML = rowsHtml;
+  
+  // Update Informasi Paginasi
+  const start = ((data.page - 1) * data.limit) + 1;
+  const end = Math.min(data.page * data.limit, data.total);
+  document.getElementById('siswaPaginationInfo').textContent = 'Menampilkan ' + start + ' - ' + end + ' dari ' + data.total + ' siswa';
+  
+  // Render Tombol Halaman
+  let btnsHtml = '';
+  btnsHtml += '<button class="page-btn" ' + (data.page <= 1 ? 'disabled' : '') + ' onclick="fetchStudentsData(' + (data.page - 1) + ')">&laquo;</button>';
+  for (let i = 1; i <= data.totalPages; i++) {
+    if (i === 1 || i === data.totalPages || (i >= data.page - 1 && i <= data.page + 1)) {
+      const activeClass = (i === data.page) ? ' active' : '';
+      btnsHtml += '<button class="page-btn' + activeClass + '" onclick="fetchStudentsData(' + i + ')">' + i + '</button>';
+    } else if (i === data.page - 2 || i === data.page + 2) {
+      btnsHtml += '<span style="padding: 0 4px;">...</span>';
+    }
+  }
+  btnsHtml += '<button class="page-btn" ' + (data.page >= data.totalPages ? 'disabled' : '') + ' onclick="fetchStudentsData(' + (data.page + 1) + ')">&raquo;</button>';
+  document.getElementById('siswaPaginationBtns').innerHTML = btnsHtml;
+}
+
+function openSiswaModal() {
+  document.getElementById('siswaModalTitle').textContent = 'Tambah Siswa Baru';
+  document.getElementById('modalSiswaId').value = '';
+  document.getElementById('modalSiswaNama').value = '';
+  document.getElementById('modalSiswaNisn').value = '';
+  document.getElementById('modalSiswaNis').value = '';
+  document.getElementById('modalSiswaKelas').value = '';
+  document.getElementById('modalSiswaJk').value = 'Laki-laki';
+  document.getElementById('modalSiswaNoPeserta').value = '';
+  document.getElementById('modalSiswaFoto').value = '';
+  openModal('siswaModal');
+}
+
+function editStudent(student) {
+  document.getElementById('siswaModalTitle').textContent = 'Ubah Data Siswa';
+  document.getElementById('modalSiswaId').value = student.idSiswa;
+  document.getElementById('modalSiswaNama').value = student.namaSiswa;
+  document.getElementById('modalSiswaNisn').value = student.nisn || '';
+  document.getElementById('modalSiswaNis').value = student.nis || '';
+  document.getElementById('modalSiswaKelas').value = student.kelas;
+  document.getElementById('modalSiswaJk').value = student.jenisKelamin || 'Laki-laki';
+  document.getElementById('modalSiswaNoPeserta').value = student.noPeserta || '';
+  document.getElementById('modalSiswaFoto').value = student.fotoUrl || '';
+  openModal('siswaModal');
+}
+
+function handleSaveStudentSubmit(event) {
+  event.preventDefault();
+  const payload = {
+    idSiswa: document.getElementById('modalSiswaId').value,
+    namaSiswa: document.getElementById('modalSiswaNama').value,
+    nisn: document.getElementById('modalSiswaNisn').value,
+    nis: document.getElementById('modalSiswaNis').value,
+    kelas: document.getElementById('modalSiswaKelas').value,
+    jenisKelamin: document.getElementById('modalSiswaJk').value,
+    noPeserta: document.getElementById('modalSiswaNoPeserta').value,
+    fotoUrl: document.getElementById('modalSiswaFoto').value
+  };
+  
+  callBackend('saveStudent', payload, function(res) {
+    if (res && res.success) {
+      closeModal('siswaModal');
+      showToast(res.message, 'success');
+      APP_STATE.cache.students = {};
+      APP_STATE.cache.dashboard = null;
+      fetchStudentsData(APP_STATE.currentStudentPage);
+    } else {
+      showToast((res && res.message) ? res.message : 'Gagal menyimpan siswa.', 'error');
+    }
+  });
+}
+
+function deleteStudent(idSiswa) {
+  showConfirmDialog({
+    title: 'Hapus Data Siswa',
+    message: 'Apakah Anda yakin ingin menghapus data siswa ini? Data penataan ruang terkait juga akan disesuaikan secara otomatis.',
+    confirmText: 'Ya, Hapus Siswa',
+    confirmType: 'danger',
+    onConfirm: function() {
+      callBackend('deleteStudent', { idSiswa: idSiswa }, function(res) {
+        if (res && res.success) {
+          showToast(res.message, 'success');
+          APP_STATE.cache.students = {};
+          APP_STATE.cache.dashboard = null;
+          fetchStudentsData(APP_STATE.currentStudentPage);
+        } else {
+          showToast((res && res.message) ? res.message : 'Gagal menghapus siswa.', 'error');
+        }
+      });
+    }
+  });
+}
+
+function openImportSiswaModal() {
+  document.getElementById('importPasteArea').value = '';
+  openModal('importModal');
+}
+
+function executeImportSiswa() {
+  const text = document.getElementById('importPasteArea').value.trim();
+  if (!text) {
+    showToast('Silakan tempelkan data siswa terlebih dahulu.', 'error');
+    return;
+  }
+  
+  const lines = text.split('\n');
+  const students = [];
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    
+    const parts = line.split('\t');
+    if (parts.length >= 2) {
+      students.push({
+        nisn: parts[0] ? parts[0].trim() : '',
+        nis: parts[1] ? parts[1].trim() : '',
+        namaSiswa: parts[2] ? parts[2].trim() : parts[0].trim(),
+        kelas: parts[3] ? parts[3].trim() : 'Umum',
+        jenisKelamin: parts[4] ? parts[4].trim() : 'Laki-laki'
+      });
+    }
+  }
+  
+  if (students.length === 0) {
+    showToast('Format teks tidak dikenali. Pastikan memisahkan kolom dengan tombol Tab.', 'error');
+    return;
+  }
+  
+  callBackend('importStudents', { students: students }, function(res) {
+    if (res && res.success) {
+      closeModal('importModal');
+      showToast(res.message, 'success');
+      APP_STATE.cache.students = {};
+      APP_STATE.cache.dashboard = null;
+      fetchStudentsData(1);
+    } else {
+      showToast((res && res.message) ? res.message : 'Gagal mengimpor siswa.', 'error');
+    }
+  });
+}
+
+function triggerBatchMatchPhotos() {
+  showToast('Memindai folder Google Drive untuk mencocokkan foto siswa...', 'info');
+  callBackend('batchMatchPhotos', null, function(res) {
+    if (res && res.success) {
+      showToast(res.message, 'success');
+      APP_STATE.cache.students = {};
+      fetchStudentsData(APP_STATE.currentStudentPage);
+    } else {
+      showToast((res && res.message) ? res.message : 'Pencocokan foto gagal.', 'error');
+    }
+  });
+}
+
+// ==============================================================================
+// 6. MASTER DATA PANITIA & PENGAWAS
+// ==============================================================================
+function loadPanitiaData() {
+  if (APP_STATE.cache.panitia) {
+    renderPanitiaTable(APP_STATE.cache.panitia);
+    return;
+  }
+  callBackend('getPanitia', null, function(res) {
+    if (res && res.success) {
+      APP_STATE.cache.panitia = res.data;
+      renderPanitiaTable(res.data);
+    }
+  });
+}
+
+function renderPanitiaTable(items) {
+  const tbody = document.getElementById('panitiaTableBody');
+  if (!items || items.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 24px; color: var(--text-muted);">Belum ada data panitia.</td></tr>';
+    return;
+  }
+  let html = '';
+  items.forEach(function(p) {
+    html += '<tr>';
+    html += '<td><img src="' + formatLh3(p.fotoUrl) + '" class="table-photo-thumb" alt="Foto"></td>';
+    html += '<td>' + escapeHtml(p.nip || '-') + '</td>';
+    html += '<td><strong>' + escapeHtml(p.namaPanitia) + '</strong></td>';
+    html += '<td><span class="badge badge-blue">' + escapeHtml(p.jabatan) + '</span></td>';
+    html += '<td>' + escapeHtml(p.noHp || '-') + '</td>';
+    html += '<td style="text-align: center;">';
+    html += '<button class="btn btn-secondary" style="padding: 4px 8px; margin-right: 4px;" onclick=\'editPanitia(' + JSON.stringify(p) + ')\' title="Ubah">&#9998;</button>';
+    html += '<button class="btn btn-danger" style="padding: 4px 8px;" onclick="deletePanitia(\'' + p.idPanitia + '\')" title="Hapus">&times;</button>';
+    html += '</td>';
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function openPanitiaModal() {
+  document.getElementById('panitiaModalTitle').textContent = 'Tambah Panitia Ujian';
+  document.getElementById('modalPanitiaId').value = '';
+  document.getElementById('modalPanitiaNama').value = '';
+  document.getElementById('modalPanitiaNip').value = '';
+  document.getElementById('modalPanitiaJabatan').value = '';
+  document.getElementById('modalPanitiaHp').value = '';
+  document.getElementById('modalPanitiaFoto').value = '';
+  openModal('panitiaModal');
+}
+
+function editPanitia(p) {
+  document.getElementById('panitiaModalTitle').textContent = 'Ubah Panitia Ujian';
+  document.getElementById('modalPanitiaId').value = p.idPanitia;
+  document.getElementById('modalPanitiaNama').value = p.namaPanitia;
+  document.getElementById('modalPanitiaNip').value = p.nip || '';
+  document.getElementById('modalPanitiaJabatan').value = p.jabatan;
+  document.getElementById('modalPanitiaHp').value = p.noHp || '';
+  document.getElementById('modalPanitiaFoto').value = p.fotoUrl || '';
+  openModal('panitiaModal');
+}
+
+function handleSavePanitiaSubmit(event) {
+  event.preventDefault();
+  const payload = {
+    idPanitia: document.getElementById('modalPanitiaId').value,
+    namaPanitia: document.getElementById('modalPanitiaNama').value,
+    nip: document.getElementById('modalPanitiaNip').value,
+    jabatan: document.getElementById('modalPanitiaJabatan').value,
+    noHp: document.getElementById('modalPanitiaHp').value,
+    fotoUrl: document.getElementById('modalPanitiaFoto').value
+  };
+  callBackend('savePanitia', payload, function(res) {
+    if (res && res.success) {
+      closeModal('panitiaModal');
+      showToast(res.message, 'success');
+      APP_STATE.cache.panitia = null;
+      APP_STATE.cache.dashboard = null;
+      loadPanitiaData();
+    } else {
+      showToast((res && res.message) ? res.message : 'Gagal menyimpan panitia.', 'error');
+    }
+  });
+}
+
+function deletePanitia(idPanitia) {
+  showConfirmDialog({
+    title: 'Hapus Data Panitia',
+    message: 'Apakah Anda yakin ingin menghapus panitia ini dari kepanitiaan ujian?',
+    confirmText: 'Ya, Hapus Panitia',
+    confirmType: 'danger',
+    onConfirm: function() {
+      callBackend('deletePanitia', { idPanitia: idPanitia }, function(res) {
+        if (res && res.success) {
+          showToast(res.message, 'success');
+          APP_STATE.cache.panitia = null;
+          APP_STATE.cache.dashboard = null;
+          loadPanitiaData();
+        } else {
+          showToast((res && res.message) ? res.message : 'Gagal menghapus panitia.', 'error');
+        }
+      });
+    }
+  });
+}
+
+function loadPengawasData() {
+  if (APP_STATE.cache.pengawas) {
+    renderPengawasTable(APP_STATE.cache.pengawas);
+    return;
+  }
+  callBackend('getPengawas', null, function(res) {
+    if (res && res.success) {
+      APP_STATE.cache.pengawas = res.data;
+      renderPengawasTable(res.data);
+    }
+  });
+}
+
+function renderPengawasTable(items) {
+  const tbody = document.getElementById('pengawasTableBody');
+  if (!items || items.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">Belum ada data pengawas ruang.</td></tr>';
+    return;
+  }
+  let html = '';
+  items.forEach(function(pg) {
+    html += '<tr>';
+    html += '<td><img src="' + formatLh3(pg.fotoUrl) + '" class="table-photo-thumb" alt="Foto"></td>';
+    html += '<td>' + escapeHtml(pg.nip || '-') + '</td>';
+    html += '<td><strong>' + escapeHtml(pg.namaPengawas) + '</strong></td>';
+    html += '<td>' + escapeHtml(pg.asalSekolah || '-') + '</td>';
+    html += '<td><span class="badge badge-green">' + escapeHtml(pg.ruangTugas || 'Semua') + '</span></td>';
+    html += '<td><span class="badge badge-gray">' + escapeHtml(pg.sesiTugas || 'Semua') + '</span></td>';
+    html += '<td style="text-align: center;">';
+    html += '<button class="btn btn-secondary" style="padding: 4px 8px; margin-right: 4px;" onclick=\'editPengawas(' + JSON.stringify(pg) + ')\' title="Ubah">&#9998;</button>';
+    html += '<button class="btn btn-danger" style="padding: 4px 8px;" onclick="deletePengawas(\'' + pg.idPengawas + '\')" title="Hapus">&times;</button>';
+    html += '</td>';
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function openPengawasModal() {
+  document.getElementById('pengawasModalTitle').textContent = 'Tambah Pengawas Ruang';
+  document.getElementById('modalPengawasId').value = '';
+  document.getElementById('modalPengawasNama').value = '';
+  document.getElementById('modalPengawasNip').value = '';
+  document.getElementById('modalPengawasAsal').value = '';
+  document.getElementById('modalPengawasRuang').value = '';
+  document.getElementById('modalPengawasSesi').value = '';
+  document.getElementById('modalPengawasFoto').value = '';
+  openModal('pengawasModal');
+}
+
+function editPengawas(pg) {
+  document.getElementById('pengawasModalTitle').textContent = 'Ubah Pengawas Ruang';
+  document.getElementById('modalPengawasId').value = pg.idPengawas;
+  document.getElementById('modalPengawasNama').value = pg.namaPengawas;
+  document.getElementById('modalPengawasNip').value = pg.nip || '';
+  document.getElementById('modalPengawasAsal').value = pg.asalSekolah || '';
+  document.getElementById('modalPengawasRuang').value = pg.ruangTugas || '';
+  document.getElementById('modalPengawasSesi').value = pg.sesiTugas || '';
+  document.getElementById('modalPengawasFoto').value = pg.fotoUrl || '';
+  openModal('pengawasModal');
+}
+
+function handleSavePengawasSubmit(event) {
+  event.preventDefault();
+  const payload = {
+    idPengawas: document.getElementById('modalPengawasId').value,
+    namaPengawas: document.getElementById('modalPengawasNama').value,
+    nip: document.getElementById('modalPengawasNip').value,
+    asalSekolah: document.getElementById('modalPengawasAsal').value,
+    ruangTugas: document.getElementById('modalPengawasRuang').value,
+    sesiTugas: document.getElementById('modalPengawasSesi').value,
+    fotoUrl: document.getElementById('modalPengawasFoto').value
+  };
+  callBackend('savePengawas', payload, function(res) {
+    if (res && res.success) {
+      closeModal('pengawasModal');
+      showToast(res.message, 'success');
+      APP_STATE.cache.pengawas = null;
+      APP_STATE.cache.dashboard = null;
+      loadPengawasData();
+    } else {
+      showToast((res && res.message) ? res.message : 'Gagal menyimpan pengawas.', 'error');
+    }
+  });
+}
+
+function deletePengawas(idPengawas) {
+  showConfirmDialog({
+    title: 'Hapus Data Pengawas',
+    message: 'Apakah Anda yakin ingin menghapus pengawas ini dari daftar pengawas ruang?',
+    confirmText: 'Ya, Hapus Pengawas',
+    confirmType: 'danger',
+    onConfirm: function() {
+      callBackend('deletePengawas', { idPengawas: idPengawas }, function(res) {
+        if (res && res.success) {
+          showToast(res.message, 'success');
+          APP_STATE.cache.pengawas = null;
+          APP_STATE.cache.dashboard = null;
+          loadPengawasData();
+        } else {
+          showToast((res && res.message) ? res.message : 'Gagal menghapus pengawas.', 'error');
+        }
+      });
+    }
+  });
+}
+
+// ==============================================================================
+// 7. PEMBAGIAN RUANG UJIAN (3 METODE)
+// ==============================================================================
+function handleGenerateRuang() {
+  const mode = document.getElementById('genModeRuang').value;
+  const kap = parseInt(document.getElementById('genKapasitasRuang').value, 10) || 20;
+  const sesi = document.getElementById('genSistemSesi').value;
+  
+  showConfirmDialog({
+    title: 'Generate Distribusi Ruang',
+    message: 'Apakah Anda yakin ingin membuat ulang penataan ruang ujian? Data penataan ruang dan penomoran meja sebelumnya akan diperbarui secara otomatis.',
+    confirmText: 'Ya, Generate Sekarang',
+    confirmType: 'primary',
+    onConfirm: function() {
+      showToast('Sedang menjalankan mesin pembagian ruang ujian...', 'info');
+      callBackend('generateRuang', {
+        mode: mode,
+        kapasitasRuang: kap,
+        sistemSesi: sesi
+      }, function(res) {
+        if (res && res.success) {
+          showToast(res.message, 'success');
+          APP_STATE.cache.distribusi = null;
+          APP_STATE.cache.dashboard = null;
+          fetchDistribusiData();
+        } else {
+          showToast((res && res.message) ? res.message : 'Gagal membuat penataan ruang.', 'error');
+        }
+      });
+    }
+  });
+}
+
+function fetchDistribusiData() {
+  const filterR = document.getElementById('filterRuangView') ? document.getElementById('filterRuangView').value : '';
+  const filterS = document.getElementById('filterSesiView') ? document.getElementById('filterSesiView').value : '';
+  
+  callBackend('getDistribusiRuang', { ruang: filterR, sesi: filterS }, function(res) {
+    if (res && res.success) {
+      APP_STATE.cache.distribusi = res;
+      renderDistribusiTable(res.data);
+      updateRuangSelectOptions(res.rooms, res.sessions);
+    }
+  });
+}
+
+function updateRuangSelectOptions(rooms, sessions) {
+  const rSelect = document.getElementById('filterRuangView');
+  const sSelect = document.getElementById('filterSesiView');
+  if (!rSelect || !sSelect) return;
+  
+  const curR = rSelect.value;
+  let rHtml = '<option value="">Semua Ruang</option>';
+  if (rooms && rooms.length) {
+    rooms.forEach(function(r) {
+      rHtml += '<option value="' + escapeHtml(r) + '"' + (r === curR ? ' selected' : '') + '>' + escapeHtml(r) + '</option>';
+    });
+  }
+  rSelect.innerHTML = rHtml;
+  
+  const curS = sSelect.value;
+  let sHtml = '<option value="">Semua Sesi</option>';
+  if (sessions && sessions.length) {
+    sessions.forEach(function(s) {
+      sHtml += '<option value="' + escapeHtml(s) + '"' + (s === curS ? ' selected' : '') + '>' + escapeHtml(s) + '</option>';
+    });
+  }
+  sSelect.innerHTML = sHtml;
+}
+
+function renderDistribusiTable(items) {
+  const tbody = document.getElementById('distribusiTableBody');
+  if (!items || items.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 24px; color: var(--text-muted);">Belum ada data distribusi ruang.</td></tr>';
+    return;
+  }
+  let html = '';
+  items.forEach(function(d) {
+    html += '<tr>';
+    html += '<td><span class="badge badge-blue">' + escapeHtml(d.namaRuang) + '</span></td>';
+    html += '<td><strong style="font-size:15px;">' + d.noMeja + '</strong></td>';
+    html += '<td><span class="badge badge-gray">' + escapeHtml(d.sesi) + '</span></td>';
+    html += '<td>' + escapeHtml(d.noPeserta) + '</td>';
+    html += '<td><strong>' + escapeHtml(d.namaSiswa) + '</strong></td>';
+    html += '<td>' + escapeHtml(d.kelas) + '</td>';
+    html += '<td style="text-align: center;"><button class="btn btn-secondary" style="padding: 3px 6px;" onclick="openEditKursiModal(\'' + d.idDistribusi + '\', \'' + escapeHtml(d.namaRuang) + '\', ' + d.noMeja + ')" title="Ubah Ruang / Meja">&#9998;</button></td>';
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+// ==============================================================================
+// 8. CETAK ADMINISTRASI UJIAN (CSS PRINT ENGINE F4 & A4)
+// ==============================================================================
+function switchPaperSize(size) {
+  APP_STATE.paperSize = size;
+  if (size === 'a4') {
+    document.body.classList.add('print-paper-a4');
+  } else {
+    document.body.classList.remove('print-paper-a4');
+  }
+  showToast('Format cetak diset ke: ' + size.toUpperCase(), 'info');
+}
+
+function loadCetakOptions() {
+  callBackend('getDistribusiRuang', {}, function(res) {
+    if (res && res.success) {
+      const rSelect = document.getElementById('cetakFilterRuang');
+      let rHtml = '<option value="">Semua Ruang</option>';
+      (res.rooms || []).forEach(function(r) {
+        rHtml += '<option value="' + escapeHtml(r) + '">' + escapeHtml(r) + '</option>';
+      });
+      if (rSelect) rSelect.innerHTML = rHtml;
+      
+      const sSelect = document.getElementById('cetakFilterSesi');
+      let sHtml = '<option value="">Semua Sesi</option>';
+      (res.sessions || []).forEach(function(s) {
+        sHtml += '<option value="' + escapeHtml(s) + '">' + escapeHtml(s) + '</option>';
+      });
+      if (sSelect) sSelect.innerHTML = sHtml;
+    }
+    handleDokumenTypeChange();
+  });
+}
+
+function handleDokumenTypeChange() {
+  const jenis = document.getElementById('cetakJenisDokumen').value;
+  const isPanitia = (jenis === 'kartuPanitia' || jenis === 'kartuPengawas');
+  const isKartu = (jenis === 'kartuPeserta' || isPanitia);
+  const isDenah = (jenis === 'denahRuang');
+  
+  const rBox = document.getElementById('cetakFilterRuangBox');
+  if (rBox) rBox.style.display = isPanitia ? 'none' : 'block';
+  
+  const sBox = document.getElementById('cetakFilterSesiBox');
+  if (sBox) sBox.style.display = isPanitia ? 'none' : 'block';
+  
+  const cardOptBox = document.getElementById('printCardOptionsBox');
+  if (cardOptBox) cardOptBox.style.display = isKartu ? 'block' : 'none';
+  
+  const denahOptBox = document.getElementById('printDenahOptionsBox');
+  if (denahOptBox) denahOptBox.style.display = isDenah ? 'block' : 'none';
+  
+  renderLivePreviewOnly();
+}
+
+function handleTtdCheckboxToggle(checkbox) {
+  APP_STATE.printOptions.ttdStempel = checkbox.checked;
+  const wrapper = document.getElementById('optTtdUploadWrapper');
+  if (wrapper) wrapper.style.display = checkbox.checked ? 'block' : 'none';
+  renderLivePreviewOnly();
+}
+
+function handleTtdFileSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    APP_STATE.printOptions.ttdImage = e.target.result;
+    const previewBox = document.getElementById('optTtdPreviewBox');
+    const previewImg = document.getElementById('optTtdPreviewImg');
+    if (previewBox && previewImg) {
+      previewImg.src = e.target.result;
+      previewBox.style.display = 'flex';
+    }
+    renderLivePreviewOnly();
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearUploadedTtd() {
+  APP_STATE.printOptions.ttdImage = '';
+  const fileInput = document.getElementById('optTtdFileInput');
+  if (fileInput) fileInput.value = '';
+  const previewBox = document.getElementById('optTtdPreviewBox');
+  if (previewBox) previewBox.style.display = 'none';
+  renderLivePreviewOnly();
+}
+
+function handlePrintOptionChange() {
+  const fotoCheck = document.getElementById('optTampilkanFoto');
+  if (fotoCheck) APP_STATE.printOptions.tampilkanFoto = fotoCheck.checked;
+  
+  const dLayout = document.getElementById('denahLayout');
+  if (dLayout) APP_STATE.printOptions.denahLayout = dLayout.value;
+  
+  const dStart = document.getElementById('denahStart');
+  if (dStart) APP_STATE.printOptions.denahStart = dStart.value;
+  
+  const dPengawas = document.getElementById('denahPengawas');
+  if (dPengawas) APP_STATE.printOptions.denahPengawas = dPengawas.value;
+  
+  renderLivePreviewOnly();
+}
+
+function renderLivePreviewOnly() {
+  const jenis = document.getElementById('cetakJenisDokumen').value;
+  const ruang = document.getElementById('cetakFilterRuang') ? document.getElementById('cetakFilterRuang').value : '';
+  const sesi = document.getElementById('cetakFilterSesi') ? document.getElementById('cetakFilterSesi').value : '';
+  const previewBox = document.getElementById('livePrintPreviewContainer');
+  if (previewBox) {
+    previewBox.innerHTML = '<div style="text-align:center; padding:35px; color:#64748b;">Memuat pratinjau dokumen...</div>';
+  }
+  
+  callBackend('getDataCetak', { jenis: jenis, ruang: ruang, sesi: sesi }, function(res) {
+    if (res && res.success) {
+      if (previewBox) {
+        previewBox.innerHTML = generateDocumentHtml(res, true);
+      }
+    } else {
+      if (previewBox) {
+        previewBox.innerHTML = '<div style="text-align:center; padding:35px; color:#ef4444;">Gagal memuat pratinjau dokumen' + (res && res.message ? ': ' + res.message : '.') + '</div>';
+      }
+    }
+  });
+}
+
+function prepareAndPrint() {
+  const jenis = document.getElementById('cetakJenisDokumen').value;
+  const ruang = document.getElementById('cetakFilterRuang').value;
+  const sesi = document.getElementById('cetakFilterSesi').value;
+  
+  showToast('Menyiapkan dokumen cetak...', 'info');
+  
+  callBackend('getDataCetak', { jenis: jenis, ruang: ruang, sesi: sesi }, function(res) {
+    if (res && res.success) {
+      renderPrintDocument(res);
+      setTimeout(function() {
+        window.print();
+      }, 500);
+    } else {
+      showToast('Gagal menyiapkan dokumen cetak.', 'error');
+    }
+  });
+}
+
+function renderPrintDocument(data) {
+  const container = document.getElementById('printContainer');
+  container.innerHTML = generateDocumentHtml(data, false);
+}
+
+function generateDocumentHtml(data, isPreview = true) {
+  try {
+    const jenis = data.jenis;
+    const set = data.settings || {};
+    const items = data.items || [];
+    const ruangName = (items[0] && items[0].namaRuang) ? items[0].namaRuang : (document.getElementById('cetakFilterRuang') && document.getElementById('cetakFilterRuang').value ? document.getElementById('cetakFilterRuang').value : 'Ruang 01');
+    const sesiName = (items[0] && items[0].sesi) ? items[0].sesi : (document.getElementById('cetakFilterSesi') && document.getElementById('cetakFilterSesi').value ? document.getElementById('cetakFilterSesi').value : '1');
+    
+    if (!items || items.length === 0) {
+      return '<div style="text-align:center; padding:40px; color:#64748b; font-size:13px;">Tidak ada data peserta/jadwal untuk kriteria cetak yang dipilih.</div>';
+    }
+    
+    let html = '';
+    
+    if (jenis === 'kartuPeserta') {
+      if (isPreview) {
+        html += '<div class="doc-notice-banner no-print"><span style="font-size:14px;">&#128207;</span> Ukuran masing-masing kartu presisi <strong>6.5cm x 9.5cm</strong> (6 kartu simetris per lembar A4 dengan garis potong). Pastikan skala cetak diset ke <strong>100% / Default</strong>.</div>';
+      }
+      const chunkSize = 6;
+      for (let c = 0; c < items.length; c += chunkSize) {
+        const pageChunk = items.slice(c, c + chunkSize);
+        html += '<div class="page-break grid-kartu-peserta grid-kartu-peserta-6">';
+        pageChunk.forEach(function(s) {
+          html += '<div class="kartu-item kartu-cut-wrapper no-break">';
+          html += '  <div class="kartu-box-inner">';
+          html += '    <div class="kp-header">';
+          html += '      <img src="' + formatLh3(set.LogoSekolah) + '" class="kp-logo" alt="Logo">';
+          html += '      <div class="kp-header-text">';
+          html += '        <div class="kp-title-main">KARTU PESERTA UJIAN</div>';
+          html += '        <div class="kp-title-sub">' + escapeHtml(set.NamaUjian || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)') + '</div>';
+          html += '        <div class="kp-title-school">' + escapeHtml(set.NamaSekolah || 'SEKOLAH') + ' • TA ' + escapeHtml(set.TahunAjaran || '2025/2026') + '</div>';
+          html += '      </div>';
+          html += '    </div>';
+          
+          html += '    <div class="kp-body">';
+          html += '      <table class="kp-table">';
+          html += '        <tr><td class="kp-td-label">No. Peserta</td><td>: <strong>' + escapeHtml(s.noPeserta) + '</strong></td></tr>';
+          html += '        <tr><td class="kp-td-label">Nama Siswa</td><td>: <strong>' + escapeHtml(s.namaSiswa) + '</strong></td></tr>';
+          const jkCode = (s.jenisKelamin && s.jenisKelamin.toLowerCase().indexOf('perempuan') !== -1) ? 'P' : 'L';
+          html += '        <tr><td class="kp-td-label">NIS / JK</td><td>: ' + escapeHtml(s.nis || '-') + ' (' + jkCode + ')</td></tr>';
+          html += '        <tr><td class="kp-td-label">Kelas</td><td>: ' + escapeHtml(s.kelas) + '</td></tr>';
+          html += '        <tr><td class="kp-td-label">Ruang / Meja</td><td>: ' + escapeHtml(s.namaRuang) + ' / Meja ' + String(s.noMeja).padStart(2, '0') + '</td></tr>';
+          html += '      </table>';
+          html += '    </div>';
+          
+          html += '    <div class="kp-footer">';
+          if (APP_STATE.printOptions.tampilkanFoto && s.fotoUrl) {
+            html += '      <img src="' + formatLh3(s.fotoUrl) + '" class="kp-foto-img" alt="Foto">';
+          } else {
+            html += '      <div class="kp-foto-box">Pas Foto<br>2×3</div>';
+          }
+          
+          html += '      <div class="kp-ttd-block">';
+          html += '        <div>' + escapeHtml(set.TempatTanggal || 'Tasikmalaya, 17 November 2026') + '</div>';
+          html += '        <div style="margin-bottom:2px;">Ketua Panitia,</div>';
+          if (APP_STATE.printOptions.ttdStempel && APP_STATE.printOptions.ttdImage) {
+            html += '        <img src="' + APP_STATE.printOptions.ttdImage + '" class="kp-ttd-img" alt="TTD">';
+          } else {
+            html += '        <div style="height: 28px;"></div>';
+          }
+          html += '        <div class="kp-ttd-name">' + escapeHtml(set.KetuaPanitia || 'Budi Santoso, S.Pd., M.Si.') + '</div>';
+          html += '        <div class="kp-ttd-nip">NIP. ' + escapeHtml(set.NipKetuaPanitia || '-') + '</div>';
+          html += '      </div>';
+          html += '    </div>';
+          html += '  </div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+    } else if (jenis === 'nomorMeja') {
+      if (isPreview) {
+        html += '<div class="doc-notice-banner notice-blue no-print"><span style="font-size:14px;">&#128186;</span> Desain Nomor Meja dicetak simetris sebanyak <strong>12 kartu per halaman A4</strong> dilengkapi garis pemotongan antar kartu.</div>';
+      }
+      const chunkSize = 12;
+      for (let c = 0; c < items.length; c += chunkSize) {
+        const pageChunk = items.slice(c, c + chunkSize);
+        html += '<div class="page-break grid-nomor-meja">';
+        pageChunk.forEach(function(s) {
+          html += '<div class="meja-item no-break">';
+          html += '  <div class="meja-box-inner">';
+          html += '    <div class="meja-header-navy">';
+          html += '      <div class="meja-header-label">NOMOR MEJA PESERTA</div>';
+          html += '      <div class="meja-header-school">' + escapeHtml(set.NamaSekolah || 'SEKOLAH') + '</div>';
+          html += '    </div>';
+          html += '    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; padding:2px 0;">';
+          html += '      <div class="meja-number-xl">' + String(s.noMeja).padStart(2, '0') + '</div>';
+          html += '      <div style="text-align:center;">';
+          html += '        <div class="meja-nopes-badge">' + escapeHtml(s.noPeserta) + '</div>';
+          html += '      </div>';
+          html += '      <div class="meja-nama-text">' + escapeHtml(s.namaSiswa) + '</div>';
+          html += '    </div>';
+          html += '    <div class="meja-footer-bar">';
+          html += '      <div>Kelas: ' + escapeHtml(s.kelas) + '</div>';
+          html += '      <div class="meja-footer-ruang">' + escapeHtml(s.namaRuang) + '</div>';
+          html += '    </div>';
+          html += '  </div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+    } else if (jenis === 'kartuPanitia' || jenis === 'kartuPengawas') {
+      if (isPreview) {
+        const titleTxt = (jenis === 'kartuPanitia') ? 'Kartu Panitia' : 'Kartu Pengawas Ruang';
+        html += '<div class="doc-notice-banner no-print"><span style="font-size:14px;">&#129489;&#8205;&#128188;</span> Desain ' + titleTxt + ' standar ukuran casing <strong>ID Card B2</strong> (6 kartu simetris per lembar A4 Portrait dengan jarak potong).</div>';
+      }
+      const chunkSize = 6;
+      for (let c = 0; c < items.length; c += chunkSize) {
+        const pageChunk = items.slice(c, c + chunkSize);
+        html += '<div class="page-break grid-kartu-panitia-6">';
+        pageChunk.forEach(function(p) {
+          html += '<div class="panitia-cut-wrapper no-break">';
+          html += '  <div class="panitia-box-inner">';
+          html += '    <div class="panitia-header-navy">';
+          html += '      <img src="' + formatLh3(set.LogoSekolah) + '" class="panitia-logo" alt="Logo">';
+          html += '      <div>';
+          html += '        <div class="panitia-title-school">' + escapeHtml(set.NamaSekolah || 'SEKOLAH') + '</div>';
+          html += '        <div class="panitia-title-exam">' + escapeHtml(set.NamaUjian || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)') + '</div>';
+          html += '      </div>';
+          html += '    </div>';
+          
+          html += '    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:4px 0;">';
+          const badgeCls = (jenis === 'kartuPanitia') ? 'panitia-badge-gold' : 'panitia-badge-green';
+          const badgeTxt = (jenis === 'kartuPanitia') ? 'PANITIA UJIAN' : 'PENGAWAS RUANG';
+          html += '      <div class="' + badgeCls + '">' + badgeTxt + '</div>';
+          
+          if (APP_STATE.printOptions.tampilkanFoto && p.fotoUrl) {
+            html += '      <img src="' + formatLh3(p.fotoUrl) + '" class="panitia-foto-img" alt="Foto">';
+          } else {
+            html += '      <div class="panitia-foto-box">Pas Foto<br>2×3</div>';
+          }
+          
+          html += '      <div class="panitia-nama">' + escapeHtml(p.namaPanitia || p.namaPengawas) + '</div>';
+          html += '      <div class="panitia-nip">NIP/NUPTK: ' + escapeHtml(p.nip || '-') + '</div>';
+          html += '    </div>';
+          
+          html += '    <div class="panitia-footer">';
+          html += '      <div>' + escapeHtml(set.TempatTanggal || 'Tasikmalaya, 17 November 2026') + '</div>';
+          html += '      <div>Kepala Sekolah,</div>';
+          if (APP_STATE.printOptions.ttdStempel && APP_STATE.printOptions.ttdImage) {
+            html += '      <img src="' + APP_STATE.printOptions.ttdImage + '" class="panitia-ttd-img" alt="TTD">';
+          } else {
+            html += '      <div style="height:24px;"></div>';
+          }
+          html += '      <div style="font-weight:800; text-decoration:underline; color:#0f172a;">' + escapeHtml(set.KepalaSekolah || 'Dr. H. Ahmad Fauzi, M.Pd.') + '</div>';
+          html += '      <div style="color:#475569;">NIP. ' + escapeHtml(set.NipKepalaSekolah || '-') + '</div>';
+          html += '    </div>';
+          html += '  </div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+    } else if (jenis === 'daftarHadir') {
+      html += '<div class="page-break dokumen-resmi-wrapper">';
+      html += renderPrintHeader(set);
+      html += '<h3 style="text-align:center; font-size:15px; font-weight:800; text-transform:uppercase; margin:16px 0 6px;">DAFTAR HADIR PESERTA UJIAN</h3>';
+      html += '<div style="text-align:center; font-size:12px; font-weight:700; margin-bottom:14px; text-transform:uppercase; color:#0f172a;">' + escapeHtml(set.NamaUjian || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)') + ' • TAHUN AJARAN ' + escapeHtml(set.TahunAjaran || '2025/2026') + '</div>';
+      
+      html += '<div class="doc-info-blue-box">';
+      html += '  <div>Ruang Ujian : <strong>' + escapeHtml(ruangName) + '</strong><br>Mata Pelajaran : ....................................................</div>';
+      html += '  <div>Hari / Tanggal : ....................................................<br>Sesi / Pukul : ....................................................</div>';
+      html += '</div>';
+      
+      html += '<table class="tabel-daftar-hadir tabel-dokumen-cetak" style="width:100%; border-collapse:collapse !important; border:1px solid #000 !important; margin-top:10px;">';
+      html += '  <thead>';
+      html += '    <tr>';
+      html += '      <th style="width:38px; border:1px solid #000 !important; padding:6px 4px; text-align:center;">No</th>';
+      html += '      <th style="width:115px; border:1px solid #000 !important; padding:6px 6px; text-align:center;">No. Peserta</th>';
+      html += '      <th style="border:1px solid #000 !important; padding:6px 8px; text-align:left;">Nama Peserta</th>';
+      html += '      <th style="width:75px; border:1px solid #000 !important; padding:6px 4px; text-align:center;">Kelas</th>';
+      html += '      <th colspan="2" style="width:140px; border:1px solid #000 !important; padding:6px 4px; text-align:center;">Tanda Tangan</th>';
+      html += '    </tr>';
+      html += '  </thead>';
+      html += '  <tbody>';
+      
+      items.forEach(function(s, idx) {
+        const num = idx + 1;
+        const isOdd = (num % 2 === 1);
+        html += '<tr>';
+        html += '  <td style="text-align:center;">' + (idx + 1) + '</td>';
+        html += '  <td style="border:1px solid #000 !important; text-align:center; padding:5px 6px; font-weight:700; color:#1e40af;">' + escapeHtml(s.noPeserta) + '</td>';
+        html += '  <td style="border:1px solid #000 !important; padding:5px 8px; font-weight:700;">' + escapeHtml(s.namaSiswa) + '</td>';
+        html += '  <td style="border:1px solid #000 !important; text-align:center; padding:5px 4px;">' + escapeHtml(s.kelas) + '</td>';
+        if (isOdd) {
+          html += '  <td style="width:70px; border-right:none; font-size:9.5px; height:24px; vertical-align:bottom; color:#475569;">' + num + '.</td>';
+          html += '  <td style="border-top:1px solid #000 !important; border-bottom:1px solid #000 !important; border-right:1px solid #000 !important; border-left:none !important; width:70px;"></td>';
+        } else {
+          html += '  <td style="width:70px; border-right:none;"></td>';
+          html += '  <td style="border-top:1px solid #000 !important; border-bottom:1px solid #000 !important; border-right:1px solid #000 !important; border-left:none !important; width:70px; font-size:10px; height:28px; vertical-align:bottom; color:#1e293b; padding:0 0 3px 6px;">' + num + '.</td>';
+        }
+        html += '</tr>';
+      });
+      html += '  </tbody>';
+      html += '</table>';
+      
+      html += '<div style="margin-top:24px; display:flex; justify-content:space-between; align-items:flex-start; font-size:12px;">';
+      html += '  <div class="rekap-kehadiran-box">';
+      html += '    <strong>Rekapitulasi Kehadiran:</strong><br>';
+      html += '    Jumlah Peserta Seharusnya : ' + items.length + ' orang<br>';
+      html += '    Jumlah Peserta Hadir : ....... orang<br>';
+      html += '    Jumlah Peserta Tidak Hadir : ....... orang';
+      html += '  </div>';
+      
+      html += '  <div style="font-size:11.5px; text-align:center; line-height:1.2;">';
+      html += '    <div>' + escapeHtml(set.TempatTanggal || 'Tasikmalaya, 17 November 2026') + '</div>';
+      html += '    <div>Pengawas Ruang,</div>';
+      html += '    <div style="height:48px;"></div>';
+      html += '    <div style="font-weight:700;">( .................................................. )</div>';
+      html += '    <div>NIP. ........................................</div>';
+      html += '  </div>';
+      html += '</div>';
+      html += '</div>';
+    } else if (jenis === 'beritaAcara') {
+      html += '<div class="page-break dokumen-resmi-wrapper">';
+      html += renderPrintHeader(set);
+      html += '<h3 style="text-align:center; font-size:15px; font-weight:800; text-transform:uppercase; margin:14px 0 4px; color:#0f172a;">BERITA ACARA PENYELENGGARAAN UJIAN</h3>';
+      html += '<div style="text-align:center; font-size:12px; font-weight:700; margin-bottom:14px; text-transform:uppercase; color:#0f172a;">' + escapeHtml(set.NamaUjian || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)') + ' • TAHUN AJARAN ' + escapeHtml(set.TahunAjaran || '2025/2026') + '</div>';
+      
+      html += '<div style="font-size:11px; line-height:1.55; margin-bottom:10px;">';
+      html += '  Pada hari ini ......................... tanggal .......... bulan .............................. tahun ............, telah diselenggarakan kegiatan <strong>' + escapeHtml(set.NamaUjian || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)') + '</strong> Tahun Ajaran <strong>' + escapeHtml(set.TahunAjaran || '2025/2026') + '</strong> di <strong>' + escapeHtml(set.NamaSekolah || 'SEKOLAH') + '</strong>:';
+      html += '</div>';
+      
+      html += '<table style="width:100%; font-size:11px; line-height:1.55; border-collapse:collapse; margin-bottom:10px;">';
+      html += '  <tr><td style="width:25px;">1.</td><td style="width:220px;">Ruang Ujian</td><td>: <strong>' + escapeHtml(ruangName) + '</strong></td></tr>';
+      html += '  <tr><td>2.</td><td>Mata Pelajaran</td><td>: ............................................................................................</td></tr>';
+      html += '  <tr><td>3.</td><td>Sesi / Waktu Ujian</td><td>: Sesi-' + escapeHtml(sesiName) + ' / Pukul .............. s.d. .............. WIB</td></tr>';
+      html += '  <tr><td>4.</td><td>Jumlah Peserta Seharusnya</td><td>: <strong>' + items.length + ' orang</strong></td></tr>';
+      html += '  <tr><td>5.</td><td>Jumlah Peserta Hadir</td><td>: .......... orang</td></tr>';
+      html += '  <tr><td>6.</td><td>Jumlah Peserta Tidak Hadir</td><td>: .......... orang</td></tr>';
+      html += '  <tr><td>7.</td><td>Nomor Peserta Tidak Hadir</td><td>: ............................................................................................</td></tr>';
+      html += '  <tr><td></td><td></td><td>&nbsp;&nbsp;............................................................................................</td></tr>';
+      html += '</table>';
+      
+      html += '<div style="font-size:11px; font-weight:700; margin-bottom:4px;">Catatan Kejadian Selama Pelaksanaan Ujian:</div>';
+      html += '<div class="catatan-kejadian-box"></div>';
+      
+      html += '<div style="font-size:11px; line-height:1.55; margin-top:8px;">';
+      html += '  Demikian Berita Acara ini dibuat dengan sesungguhnya untuk dapat dipergunakan sebagaimana mestinya.';
+      html += '</div>';
+      
+      html += '<div style="margin-top:20px; display:flex; justify-content:space-between; font-size:11.5px; text-align:center; line-height:1.2;">';
+      html += '  <div>';
+      html += '    <div>Mengetahui,</div>';
+      html += '    <div>Ketua Panitia Ujian</div>';
+      html += '    <div style="height:48px;"></div>';
+      html += '    <div style="font-weight:800; text-decoration:underline;">' + escapeHtml(set.KetuaPanitia || 'Budi Santoso, S.Pd., M.Si.') + '</div>';
+      html += '    <div>NIP. ' + escapeHtml(set.NipKetuaPanitia || '19820817 200604 1 005') + '</div>';
+      html += '  </div>';
+      
+      html += '  <div>';
+      html += '    <div>' + escapeHtml(set.TempatTanggal || 'Tasikmalaya, 17 November 2026') + '</div>';
+      html += '    <div>Pengawas Ruang Ujian</div>';
+      html += '    <div style="height:48px;"></div>';
+      html += '    <div style="font-weight:700;">( .................................................. )</div>';
+      html += '    <div>NIP. ........................................</div>';
+      html += '  </div>';
+      html += '</div>';
+      html += '</div>';
+    } else if (jenis === 'denahRuang') {
+      html += '<div class="page-break dokumen-resmi-wrapper denah-print-wrapper">';
+      html += renderPrintHeader(set);
+      html += '<h3 style="text-align:center; font-size:14px; font-weight:800; text-transform:uppercase; margin:14px 0 10px;">DENAH RUANG UJIAN (' + (items[0] ? escapeHtml(items[0].namaRuang) : 'RUANG') + ')</h3>';
+      html += '<div style="text-align:center; font-size:11.5px; font-weight:700; margin-bottom:12px; text-transform:uppercase; color:#0f172a;">' + escapeHtml(set.NamaUjian || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)') + ' • ' + escapeHtml(ruangName.toUpperCase()) + ' (TOTAL: ' + items.length + ' PESERTA)</div>';
+      
+      html += '<div class="denah-papan-tulis">PAPAN TULIS (DEPAN)</div>';
+      
+      const pPos = APP_STATE.printOptions.denahPengawas || 'kanan';
+      const alignJustify = (pPos === 'kiri') ? 'flex-start' : (pPos === 'tengah' ? 'center' : 'flex-end');
+      html += '<div class="denah-pengawas-row" style="justify-content:' + alignJustify + ';">';
+      html += '  <div class="denah-meja-pengawas">MEJA PENGAWAS</div>';
+      html += '</div>';
+      
+      const cols = 4;
+      const rowCount = Math.max(1, Math.ceil(items.length / cols));
+      const matrix = [];
+      for (let r = 0; r < rowCount; r++) {
+        matrix.push(new Array(cols).fill(null));
+      }
+      
+      let itemIdx = 0;
+      for (let r = 0; r < rowCount; r++) {
+        let isReversed = false;
+        if (APP_STATE.printOptions.denahLayout === 'spiral') {
+          if (APP_STATE.printOptions.denahStart === 'kiri') {
+            isReversed = (r % 2 === 1);
+          } else {
+            isReversed = (r % 2 === 0);
+          }
+        } else {
+          isReversed = (APP_STATE.printOptions.denahStart === 'kanan');
+        }
+        
+        if (!isReversed) {
+          for (let c = 0; c < cols; c++) {
+            if (itemIdx < items.length) {
+              matrix[r][c] = items[itemIdx++];
+            }
+          }
+        } else {
+          for (let c = cols - 1; c >= 0; c--) {
+            if (itemIdx < items.length) {
+              matrix[r][c] = items[itemIdx++];
+            }
+          }
+        }
+      }
+      
+      html += '<div class="denah-meja-grid-4">';
+      for (let r = 0; r < rowCount; r++) {
+        for (let c = 0; c < cols; c++) {
+          const s = matrix[r][c];
+          if (s) {
+            html += '<div class="denah-meja-cell no-break">';
+            html += '  <div class="denah-cell-top">';
+            html += '    <div class="denah-pill-meja">M-' + String(s.noMeja).padStart(2, '0') + '</div>';
+            html += '    <div class="denah-pill-kelas">' + escapeHtml(s.kelas) + '</div>';
+            html += '  </div>';
+            html += '  <div class="denah-cell-nopes">' + escapeHtml(s.noPeserta) + '</div>';
+            html += '  <div class="denah-cell-nama">' + escapeHtml(s.namaSiswa) + '</div>';
+            html += '</div>';
+          } else {
+            html += '<div class="denah-meja-cell no-break" style="border-style:dashed; opacity:0.4;">';
+            html += '  <div style="font-size:10px; color:#94a3b8; padding:10px 0;">(Kosong)</div>';
+            html += '</div>';
+          }
+        }
+      }
+      html += '</div>';
+      
+      const layoutLabel = (APP_STATE.printOptions.denahLayout === 'spiral') ? 'Spiral (Ular)' : 'Lurus';
+      const startLabel = (APP_STATE.printOptions.denahStart === 'kiri') ? 'Kiri' : 'Kanan';
+      const pengawasLabel = (pPos === 'kanan') ? 'Kanan' : (pPos === 'kiri' ? 'Kiri' : 'Tengah');
+      
+      html += '<div class="denah-footer-info">';
+      html += '  <div style="color:#475569;">Layout Denah: <strong>' + layoutLabel + '</strong> • Mulai dari: <strong>' + startLabel + '</strong> • Pengawas: <strong>' + pengawasLabel + '</strong></div>';
+      html += '  <div style="text-align:center; line-height:1.2;">';
+      html += '    <div>' + escapeHtml(set.TempatTanggal || 'Tasikmalaya, 17 November 2026') + '</div>';
+      html += '    <div>Ketua Panitia,</div>';
+      html += '    <div style="height:44px;"></div>';
+      html += '    <div style="font-weight:800; text-decoration:underline;">' + escapeHtml(set.KetuaPanitia || 'Budi Santoso, S.Pd., M.Si.') + '</div>';
+      html += '    <div>NIP. ' + escapeHtml(set.NipKetuaPanitia || '19820817 200604 1 005') + '</div>';
+      html += '  </div>';
+      html += '</div>';
+      html += '</div>';
+    }
+    
+    return html;
+  } catch (err) {
+    console.error('Error generating document html:', err);
+    return '<div style="color:#ef4444; padding:30px; text-align:center; font-weight:600;">Terjadi kesalahan saat memproses dokumen: ' + escapeHtml(err.message) + '</div>';
+  }
+}
+
+function renderPrintHeader(set) {
+  let h = '';
+  h += '<div style="display:flex; align-items:center; justify-content:space-between; border-bottom:3px double #000; padding-bottom:10px;">';
+  h += '  <img src="' + formatLh3(set.LogoDinas) + '" class="kop-dinas-logo" style="max-height:55px; max-width:65px; object-fit:contain;" alt="Logo Dinas">';
+  h += '  <div class="kop-dinas-text">';
+  h += '    <div style="font-size:12.5px; font-weight:600; text-transform:uppercase; color:#000;">' + escapeHtml(set.HeaderKop1 || 'PEMERINTAH PROVINSI JAWA BARAT') + '</div>';
+  h += '    <div style="font-size:13px; font-weight:700; text-transform:uppercase; color:#000;">' + escapeHtml(set.HeaderKop2 || 'DINAS PENDIDIKAN') + '</div>';
+  h += '    <div style="font-size:16px; font-weight:900; text-transform:uppercase; color:#000; letter-spacing:0.5px;">' + escapeHtml(set.NamaSekolah || 'SMA NEGERI 1 NUSANTARA') + '</div>';
+  h += '    <div style="font-size:11px; font-weight:500; color:#111;">Jl. Pendidikan No. 123, Telp. (0265) 123456</div>';
+  h += '  </div>';
+  h += '  <img src="' + formatLh3(set.LogoSekolah) + '" style="max-height:55px; max-width:65px; object-fit:contain;" alt="Logo Sekolah">';
+  h += '</div>';
+  return h;
+}
+
+// Simple Vector QR Code Generator (Inline SVG)
+function generateSimpleSvgQr(text) {
+  return '<svg viewBox="0 0 100 100" style="width:100%; height:100%;"><rect width="100" height="100" fill="#fff"/><rect x="5" y="5" width="28" height="28" fill="#000"/><rect x="9" y="9" width="20" height="20" fill="#fff"/><rect x="13" y="13" width="12" height="12" fill="#000"/><rect x="67" y="5" width="28" height="28" fill="#000"/><rect x="71" y="9" width="20" height="20" fill="#fff"/><rect x="75" y="13" width="12" height="12" fill="#000"/><rect x="5" y="67" width="28" height="28" fill="#000"/><rect x="9" y="71" width="20" height="20" fill="#fff"/><rect x="13" y="75" width="12" height="12" fill="#000"/><rect x="42" y="10" width="8" height="8" fill="#000"/><rect x="42" y="30" width="8" height="8" fill="#000"/><rect x="10" y="42" width="8" height="8" fill="#000"/><rect x="30" y="42" width="8" height="8" fill="#000"/><rect x="50" y="50" width="15" height="15" fill="#000"/><rect x="70" y="50" width="10" height="10" fill="#000"/><rect x="50" y="70" width="10" height="10" fill="#000"/><rect x="70" y="70" width="15" height="15" fill="#000"/></svg>';
+}
+
+// ==============================================================================
+// 9. MEDIA UPLOAD GOOGLE DRIVE & GOOGLE CDN FORMATTING
+// ==============================================================================
+function openPhotoUploadModal(targetField) {
+  document.getElementById('uploadTargetField').value = targetField;
+  document.getElementById('mediaFileInput').value = '';
+  document.getElementById('mediaUploadPreviewContainer').style.display = 'none';
+  openModal('photoUploadModal');
+}
+
+function previewMediaBeforeUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('mediaUploadPreviewImg').src = e.target.result;
+    document.getElementById('mediaUploadPreviewContainer').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function executePhotoUpload() {
+  const fileInput = document.getElementById('mediaFileInput');
+  const targetField = document.getElementById('uploadTargetField').value;
+  const file = fileInput.files[0];
+  
+  if (!file) {
+    showToast('Pilih berkas foto terlebih dahulu.', 'error');
+    return;
+  }
+  
+  const btn = document.getElementById('btnExecuteUploadMedia');
+  btn.disabled = true;
+  btn.textContent = 'Mengunggah ke Drive...';
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const rawBase64 = e.target.result.split(',')[1];
+    
+    callBackend('uploadPhoto', {
+      base64Data: rawBase64,
+      mimeType: file.type,
+      fileName: file.name,
+      folderType: targetField
+    }, function(res) {
+      btn.disabled = false;
+      btn.textContent = 'Mulai Unggah';
+      
+      if (res && res.success) {
+        closeModal('photoUploadModal');
+        showToast('Foto berhasil diunggah ke Google Drive!', 'success');
+        
+        // Isi URL ke target field
+        if (targetField === 'logoDinas') {
+          document.getElementById('cfgLogoDinas').value = res.url;
+          updateKopPreview();
+        } else if (targetField === 'logoSekolah') {
+          document.getElementById('cfgLogoSekolah').value = res.url;
+          updateKopPreview();
+        } else if (targetField === 'siswa') {
+          document.getElementById('modalSiswaFoto').value = res.url;
+        } else if (targetField === 'panitia') {
+          document.getElementById('modalPanitiaFoto').value = res.url;
+        } else if (targetField === 'pengawas') {
+          document.getElementById('modalPengawasFoto').value = res.url;
+        }
+      } else {
+        showToast((res && res.message) ? res.message : 'Gagal mengunggah gambar.', 'error');
+      }
+    });
+  };
+  reader.readAsDataURL(file);
+}
+
+// ==============================================================================
+// 10. BACKUP & RESTORE DATABASE JSON
+// ==============================================================================
+function triggerDownloadBackup() {
+  showToast('Sedang membuat berkas cadangan database...', 'info');
+  callBackend('backupDatabase', null, function(res) {
+    if (res && res.success) {
+      const blob = new Blob([res.jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = res.fileName || 'backup_sipandu.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Cadangan database berhasil diunduh.', 'success');
+    } else {
+      showToast('Gagal membuat file backup.', 'error');
+    }
+  });
+}
+
+function handleRestoreFileSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  showConfirmDialog({
+    title: 'Konfirmasi Pemulihan Database',
+    message: 'PERINGATAN: Memulihkan database dari berkas JSON akan menimpa seluruh data yang ada saat ini. Apakah Anda yakin ingin melanjutkan?',
+    confirmText: 'Ya, Pulihkan Database',
+    confirmType: 'warning',
+    onConfirm: function() {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        showToast('Sedang memulihkan lembar kerja...', 'info');
+        callBackend('restoreDatabase', { jsonString: e.target.result }, function(res) {
+          document.getElementById('restoreJsonFileInput').value = '';
+          if (res && res.success) {
+            showToast(res.message, 'success');
+            APP_STATE.cache = { dashboard: null, settings: null, students: {}, panitia: null, pengawas: null, distribusi: null };
+            loadSettingsData(true);
+            loadDashboardData();
+          } else {
+            showToast((res && res.message) ? res.message : 'Pemulihan gagal.', 'error');
+          }
+        });
+      };
+      reader.readAsText(file);
+    }
+  });
+  event.target.value = '';
+}
+
+// ==============================================================================
+// 10B. MODUL IMPORT EXCEL (.XLSX) VIA SHEETJS & BATCH FOTO (NISN/NIP.jpg)
+// ==============================================================================
+function openExcelImportModal(target) {
+  APP_STATE.excelTarget = target || 'siswa';
+  const targetField = document.getElementById('excelImportTarget');
+  if (targetField) targetField.value = APP_STATE.excelTarget;
+  
+  const titles = {
+    siswa: 'Import Data Siswa dari File Excel (.xlsx / .xls)',
+    panitia: 'Import Data Panitia dari File Excel (.xlsx / .xls)',
+    pengawas: 'Import Data Pengawas dari File Excel (.xlsx / .xls)'
+  };
+  document.getElementById('excelImportModalTitle').textContent = titles[APP_STATE.excelTarget] || 'Import Data Excel';
+  document.getElementById('excelFileInput').value = '';
+  document.getElementById('excelFileStatus').textContent = 'Pilih berkas Excel (.xlsx / .xls) dari komputer/laptop';
+  document.getElementById('excelPreviewSection').style.display = 'none';
+  document.getElementById('btnExecuteExcelImport').disabled = true;
+  APP_STATE.parsedExcelData = null;
+  openModal('excelImportModal');
+}
+
+function handleExcelFileSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  document.getElementById('excelFileStatus').textContent = 'Membaca: ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array', cellDates: true, cellNF: true, cellText: true });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false });
+      
+      if (!jsonData || jsonData.length <= 1) {
+        showToast('File Excel kosong atau tidak memiliki baris data.', 'error');
+        return;
+      }
+      
+      const target = APP_STATE.excelTarget || 'siswa';
+      const rows = [];
+      
+      for (let i = 1; i < jsonData.length; i++) {
+        const r = jsonData[i];
+        if (!r || r.length === 0) continue;
+        
+        if (target === 'siswa') {
+          if (r[0] || r[2]) {
+            let rawNisn = r[0] ? String(r[0]).trim() : '';
+            // Proteksi angka 0 di depan NISN agar tidak hilang (standar 10 digit Kemdikbud)
+            if (rawNisn && /^\d+$/.test(rawNisn) && rawNisn.length < 10) {
+              rawNisn = rawNisn.padStart(10, '0');
+            }
+            let rawNis = r[1] ? String(r[1]).trim() : '';
+            
+            rows.push({
+              nisn: rawNisn,
+              nis: rawNis,
+              namaSiswa: r[2] ? String(r[2]).trim() : (rawNisn ? rawNisn : 'Siswa'),
+              kelas: r[3] ? String(r[3]).trim() : 'Umum',
+              jenisKelamin: r[4] ? String(r[4]).trim() : 'Laki-laki'
+            });
+          }
+        } else if (target === 'panitia') {
+          if (r[0] || r[1]) {
+            rows.push({
+              nip: r[0] ? String(r[0]).trim() : '',
+              namaPanitia: r[1] ? String(r[1]).trim() : 'Panitia',
+              jabatan: r[2] ? String(r[2]).trim() : 'Anggota',
+              noHp: r[3] ? String(r[3]).trim() : ''
+            });
+          }
+        } else if (target === 'pengawas') {
+          if (r[0] || r[1]) {
+            rows.push({
+              nip: r[0] ? String(r[0]).trim() : '',
+              namaPengawas: r[1] ? String(r[1]).trim() : 'Pengawas',
+              asalSekolah: r[2] ? String(r[2]).trim() : '',
+              ruangTugas: r[3] ? String(r[3]).trim() : '',
+              sesiTugas: r[4] ? String(r[4]).trim() : ''
+            });
+          }
+        }
+      }
+      
+      APP_STATE.parsedExcelData = rows;
+      
+      document.getElementById('excelPreviewCount').textContent = 'Berhasil membaca ' + rows.length + ' baris data siap diimpor:';
+      let tableHtml = '<thead><tr>';
+      if (target === 'siswa') tableHtml += '<th>NISN</th><th>NIS</th><th>Nama Siswa</th><th>Kelas</th><th>JK</th>';
+      else if (target === 'panitia') tableHtml += '<th>NIP</th><th>Nama Panitia</th><th>Jabatan</th><th>No HP</th>';
+      else if (target === 'pengawas') tableHtml += '<th>NIP</th><th>Nama Pengawas</th><th>Asal Sekolah</th><th>Ruang</th><th>Sesi</th>';
+      tableHtml += '</tr></thead><tbody>';
+      
+      const samplePreview = rows.slice(0, 5);
+      samplePreview.forEach(function(item) {
+        tableHtml += '<tr>';
+        if (target === 'siswa') {
+          tableHtml += '<td>' + escapeHtml(item.nisn) + '</td><td>' + escapeHtml(item.nis) + '</td><td>' + escapeHtml(item.namaSiswa) + '</td><td>' + escapeHtml(item.kelas) + '</td><td>' + escapeHtml(item.jenisKelamin) + '</td>';
+        } else if (target === 'panitia') {
+          tableHtml += '<td>' + escapeHtml(item.nip) + '</td><td>' + escapeHtml(item.namaPanitia) + '</td><td>' + escapeHtml(item.jabatan) + '</td><td>' + escapeHtml(item.noHp) + '</td>';
+        } else if (target === 'pengawas') {
+          tableHtml += '<td>' + escapeHtml(item.nip) + '</td><td>' + escapeHtml(item.namaPengawas) + '</td><td>' + escapeHtml(item.asalSekolah) + '</td><td>' + escapeHtml(item.ruangTugas) + '</td><td>' + escapeHtml(item.sesiTugas) + '</td>';
+        }
+        tableHtml += '</tr>';
+      });
+      if (rows.length > 5) {
+        tableHtml += '<tr><td colspan="5" style="text-align:center; color:#64748b;">... dan ' + (rows.length - 5) + ' baris data lainnya ...</td></tr>';
+      }
+      tableHtml += '</tbody>';
+      
+      document.getElementById('excelPreviewTable').innerHTML = tableHtml;
+      document.getElementById('excelPreviewSection').style.display = 'block';
+      document.getElementById('btnExecuteExcelImport').disabled = (rows.length === 0);
+    } catch (err) {
+      showToast('Gagal memproses file Excel: ' + err.toString(), 'error');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function executeExcelImport() {
+  const target = APP_STATE.excelTarget || 'siswa';
+  const data = APP_STATE.parsedExcelData;
+  if (!data || data.length === 0) {
+    showToast('Tidak ada data Excel untuk diimpor.', 'error');
+    return;
+  }
+  
+  const btn = document.getElementById('btnExecuteExcelImport');
+  btn.disabled = true;
+  btn.textContent = 'Mengimpor ' + data.length + ' data...';
+  
+  let action = 'importStudents';
+  let payload = { students: data };
+  if (target === 'panitia') {
+    action = 'importPanitia';
+    payload = { panitia: data };
+  } else if (target === 'pengawas') {
+    action = 'importPengawas';
+    payload = { pengawas: data };
+  }
+  
+  callBackend(action, payload, function(res) {
+    btn.disabled = false;
+    btn.textContent = 'Mulai Import Data';
+    if (res && res.success) {
+      closeModal('excelImportModal');
+      showToast(res.message, 'success');
+      if (target === 'siswa') {
+        APP_STATE.cache.students = {};
+        APP_STATE.cache.dashboard = null;
+        fetchStudentsData(1);
+      } else if (target === 'panitia') {
+        APP_STATE.cache.panitia = null;
+        APP_STATE.cache.dashboard = null;
+        loadPanitiaData();
+      } else if (target === 'pengawas') {
+        APP_STATE.cache.pengawas = null;
+        APP_STATE.cache.dashboard = null;
+        loadPengawasData();
+      }
+    } else {
+      showToast((res && res.message) ? res.message : 'Import gagal.', 'error');
+    }
+  });
+}
+
+function downloadExcelTemplate() {
+  const target = APP_STATE.excelTarget || 'siswa';
+  let headers = [];
+  let sampleData = [];
+  let filename = 'Template_Import.xlsx';
+  
+  if (target === 'siswa') {
+    headers = ['NISN', 'NIS', 'Nama Siswa', 'Kelas', 'Jenis Kelamin'];
+    sampleData = [
+      headers,
+      ['0061234561', '24001', 'Ahmad Dani Pratama', 'XII RPL 1', 'Laki-laki'],
+      ['0061234562', '24002', 'Annisa Rahmawati', 'XII RPL 1', 'Perempuan']
+    ];
+    filename = 'Template_Siswa.xlsx';
+  } else if (target === 'panitia') {
+    headers = ['NIP', 'Nama Panitia', 'Jabatan', 'No HP'];
+    sampleData = [
+      headers,
+      ['198502022010011005', 'Budi Santoso, S.Kom.', 'Ketua Panitia', '081234567890'],
+      ['198904152015022003', 'Siti Rahayu, S.Pd.', 'Sekretaris', '081234567891']
+    ];
+    filename = 'Template_Panitia.xlsx';
+  } else if (target === 'pengawas') {
+    headers = ['NIP', 'Nama Pengawas', 'Asal Sekolah', 'Ruang Tugas', 'Sesi Tugas'];
+    sampleData = [
+      headers,
+      ['198003102005011004', 'Drs. Hendro Wibowo', 'SMK Negeri 1 Indonesia', 'Ruang 01', 'Sesi 1'],
+      ['198407182009022006', 'Dra. Endang Purwanti', 'SMK Negeri 1 Indonesia', 'Ruang 02', 'Sesi 1']
+    ];
+    filename = 'Template_Pengawas.xlsx';
+  }
+  
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(sampleData, { cellText: true });
+  // Pastikan seluruh sel di-format teks agar Excel tidak memotong angka 0 di depan
+  Object.keys(ws).forEach(function(cell) {
+    if (cell[0] !== '!' && ws[cell]) {
+      ws[cell].t = 's';
+      ws[cell].z = '@';
+    }
+  });
+  XLSX.utils.book_append_sheet(wb, ws, 'Template');
+  XLSX.writeFile(wb, filename);
+  showToast('Template ' + filename + ' berhasil diunduh.', 'success');
+}
+
+function triggerBatchMatchPhotos(kategori) {
+  kategori = kategori || 'siswa';
+  const label = (kategori === 'siswa') ? 'NISN.jpg' : 'NIP.jpg';
+  showToast('Memindai folder Google Drive untuk mencocokkan ' + kategori.toUpperCase() + ' (' + label + ')...', 'info');
+  callBackend('batchMatchPhotos', { kategori: kategori }, function(res) {
+    if (res && res.success) {
+      showToast(res.message, 'success');
+      if (kategori === 'siswa') {
+        APP_STATE.cache.students = {};
+        fetchStudentsData(APP_STATE.currentStudentPage);
+      } else if (kategori === 'panitia') {
+        APP_STATE.cache.panitia = null;
+        loadPanitiaData();
+      } else if (kategori === 'pengawas') {
+        APP_STATE.cache.pengawas = null;
+        loadPengawasData();
+      }
+    } else {
+      showToast((res && res.message) ? res.message : 'Pencocokan foto gagal.', 'error');
+    }
+  });
+}
+
+function openResetModal() {
+  document.getElementById('resetConfirmInput').value = '';
+  openModal('resetModal');
+}
+
+function executeFactoryReset() {
+  const conf = document.getElementById('resetConfirmInput').value.trim();
+  if (conf !== 'RESET') {
+    showToast('Harap ketik kata "RESET" dengan huruf besar.', 'error');
+    return;
+  }
+  
+  closeModal('resetModal');
+  showToast('Sedang melakukan reset ke pengaturan pabrik...', 'info');
+  
+  callBackend('resetDatabase', { confirmation: 'RESET' }, function(res) {
+    if (res && res.success) {
+      showToast(res.message, 'success');
+      APP_STATE.cache = { dashboard: null, settings: null, students: {}, panitia: null, pengawas: null, distribusi: null };
+      loadSettingsData(true);
+      loadDashboardData();
+    } else {
+      showToast((res && res.message) ? res.message : 'Gagal reset pabrik.', 'error');
+    }
+  });
+}
+
+// ==============================================================================
+// 11. SISTEM KOMUNIKASI BACKEND (CALL BRIDGE) & TOAST ALERT
+// ==============================================================================
+function callBackend(action, payload, callback) {
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(response) {
+        if (callback) callback(response);
+      })
+      .withFailureHandler(function(err) {
+        showToast('Koneksi server gagal: ' + err.toString(), 'error');
+        if (callback) callback({ success: false, message: err.toString() });
+      })
+      .apiRouter(action, payload);
+  } else {
+    // Mode Vercel / Cloud Hosting: Hubungkan ke Google Apps Script Web App via HTTP POST
+    const gasUrl = localStorage.getItem('sipandu_gas_url') || '';
+    if (gasUrl) {
+      fetch(gasUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: action, payload: payload })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (callback) callback(data);
+      })
+      .catch(function(err) {
+        console.error('Fetch error:', err);
+        showToast('Gagal menghubungi Apps Script API: ' + err.message, 'error');
+        if (callback) callback({ success: false, message: err.message });
+      });
+    } else {
+      // Belum ada URL Google Apps Script yang dikonfigurasikan
+      console.warn('Google Script Run tidak terdeteksi & URL Apps Script belum diatur.');
+      showToast('Aplikasi berjalan di Vercel. Klik tombol "Koneksi API" di kanan atas untuk menyambungkan Google Sheets Anda.', 'warning');
+      openGasConfigModal();
+      setTimeout(function() {
+        if (callback) callback({ success: false, message: 'URL Apps Script belum diisi.' });
+      }, 500);
+    }
+  }
+}
+
+function openGasConfigModal() {
+  const m = document.getElementById('gasConfigModal');
+  const inp = document.getElementById('inputGasApiUrl');
+  if (inp) {
+    inp.value = localStorage.getItem('sipandu_gas_url') || '';
+  }
+  if (m) m.style.display = 'flex';
+}
+
+function saveGasApiUrl() {
+  const inp = document.getElementById('inputGasApiUrl');
+  const val = inp ? inp.value.trim() : '';
+  if (!val) {
+    showToast('Harap masukkan URL Web App Google Apps Script.', 'error');
+    return;
+  }
+  if (!val.startsWith('http')) {
+    showToast('Format URL tidak valid (harus diawali https://).', 'error');
+    return;
+  }
+  localStorage.setItem('sipandu_gas_url', val);
+  document.getElementById('gasConfigModal').style.display = 'none';
+  showToast('URL Google Apps Script berhasil disimpan! Menyegarkan data...', 'success');
+  setTimeout(function() {
+    location.reload();
+  }, 800);
+}
+
+function showToast(message, type) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + (type || 'info');
+  toast.textContent = message;
+  
+  container.appendChild(toast);
+  setTimeout(function() {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.3s ease';
+    setTimeout(function() {
+      if (container.contains(toast)) container.removeChild(toast);
+    }, 300);
+  }, 4000);
+}
+
+function openModal(id) {
+  const m = document.getElementById(id);
+  if (m) m.classList.add('active');
+}
+
+function closeModal(id) {
+  const m = document.getElementById(id);
+  if (m) m.classList.remove('active');
+}
+
+function formatLh3(url) {
+  if (!url) return 'https://lh3.googleusercontent.com/d/1nqJ02h0xff2v_wgAQLAGi2_6KiewIf-k';
+  if (url.indexOf('lh3.googleusercontent.com/d/') !== -1) return url;
+  
+  const match1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match1 && match1[1]) return 'https://lh3.googleusercontent.com/d/' + match1[1];
+  
+  const match2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match2 && match2[1]) return 'https://lh3.googleusercontent.com/d/' + match2[1];
+  
+  return url;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+</script>
+
+<!-- GAS Web App URL Config Modal for Vercel -->
+<div id="gasConfigModal" class="custom-modal-overlay no-print" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(15,23,42,0.6); z-index:99999; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:12px; width:90%; max-width:520px; padding:24px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1); border:1px solid #e2e8f0;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <h3 style="font-size:16px; font-weight:800; color:#0f172a; margin:0;">Koneksi Google Apps Script API</h3>
+      <button type="button" style="background:none; border:none; font-size:20px; cursor:pointer; color:#64748b;" onclick="document.getElementById('gasConfigModal').style.display='none'">&times;</button>
+    </div>
+    <p style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:16px;">
+      Agar data di Vercel terhubung ke Google Sheets & Google Drive Anda, masukkan URL Web App Google Apps Script yang sudah Anda deploy (akhiran <code>/exec</code>).
+    </p>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label class="form-label" style="font-weight:700; font-size:12.5px;">URL Web App Google Apps Script</label>
+      <input type="url" id="inputGasApiUrl" class="form-input" placeholder="https://script.google.com/macros/s/.../exec" style="font-size:12px; width:100%; box-sizing:border-box;">
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button type="button" class="btn btn-secondary" onclick="document.getElementById('gasConfigModal').style.display='none'">Tutup</button>
+      <button type="button" class="btn btn-primary" onclick="saveGasApiUrl()">Simpan & Hubungkan</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
