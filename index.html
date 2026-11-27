@@ -1835,15 +1835,7 @@ body.print-paper-a4 {
           <h2 id="pageTitle" class="page-heading-title">Dashboard</h2>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
-          <button class="btn btn-secondary" onclick="openGasConfigModal()" title="Pengaturan Koneksi Google Apps Script API">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            <span style="font-size: 12.5px;">Koneksi API</span>
-          </button>
-          <button class="btn btn-secondary" onclick="refreshCurrentData()" title="Segarkan Data Terkini">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-            <span style="font-size: 12.5px;">Segarkan</span>
-          </button>
-          <button class="btn btn-danger" onclick="showLogoutModal()" style="font-size: 12.5px; padding: 8px 14px;">
+          <button class="btn btn-danger" onclick="showLogoutModal()" style="font-size: 12.5px; padding: 8px 16px;">
             <span>Keluar</span>
           </button>
         </div>
@@ -4839,21 +4831,8 @@ function callBackend(action, payload, callback) {
       })
       .apiRouter(action, payload);
   } else {
-    // Mode Vercel / Cloud Hosting: Hubungkan ke Google Apps Script Web App via HTTP POST
-    let gasUrl = (localStorage.getItem('sipandu_gas_url') || '').trim();
-    if (!gasUrl) {
-      console.warn('Google Script Run tidak terdeteksi & URL Apps Script belum diatur.');
-      showToast('Aplikasi berjalan di Vercel. Silakan hubungkan URL Google Apps Script Anda.', 'warning');
-      openGasConfigModal();
-      if (callback) callback({ success: false, message: 'URL Apps Script belum diisi.' });
-      return;
-    }
-
-    // Koreksi otomatis jika pengguna menyalin URL /edit alih-alih /exec
-    if (gasUrl.endsWith('/edit')) {
-      gasUrl = gasUrl.replace(/\/edit$/, '/exec');
-      localStorage.setItem('sipandu_gas_url', gasUrl);
-    }
+    // Mode Vercel / Cloud Hosting: Terhubung langsung ke URL Web App Google Apps Script Sipandu
+    const gasUrl = 'https://script.google.com/macros/s/AKfycbxZoPqy8rCNlGw6ntnj-a4jmrpcm8xj84tk680YNXy5h5xEiHp0X1bSouLlo6hztat0/exec';
 
     fetch(gasUrl, {
       method: 'POST',
@@ -4887,142 +4866,13 @@ function callBackend(action, payload, callback) {
       console.error('Fetch error:', err);
       const errStr = (err && err.message) ? err.message : String(err);
       if (errStr.indexOf('Failed to fetch') !== -1 || errStr.indexOf('NetworkError') !== -1) {
-        showToast('Gagal terhubung ke Apps Script (Failed to fetch). Periksa izin akses Web App (wajib "Anyone").', 'error');
-        openGasConfigModal();
+        showToast('Koneksi terputus: Failed to fetch. Pastikan koneksi internet stabil.', 'error');
       } else {
         showToast('Gagal menghubungi Apps Script API: ' + errStr, 'error');
       }
       if (callback) callback({ success: false, message: errStr });
     });
   }
-}
-
-function openGasConfigModal() {
-  const m = document.getElementById('gasConfigModal');
-  const inp = document.getElementById('inputGasApiUrl');
-  const statusBox = document.getElementById('gasTestStatusBox');
-  if (statusBox) statusBox.style.display = 'none';
-  if (inp) {
-    inp.value = localStorage.getItem('sipandu_gas_url') || '';
-  }
-  if (m) m.style.display = 'flex';
-}
-
-function closeGasConfigModal() {
-  const m = document.getElementById('gasConfigModal');
-  if (m) m.style.display = 'none';
-}
-
-function testGasConnection() {
-  const inp = document.getElementById('inputGasApiUrl');
-  let url = inp ? inp.value.trim() : '';
-  const statusBox = document.getElementById('gasTestStatusBox');
-  const btn = document.getElementById('btnTestGasConn');
-  
-  if (!url) {
-    showToast('Masukkan URL Web App terlebih dahulu.', 'error');
-    return;
-  }
-  
-  if (url.endsWith('/edit')) {
-    url = url.replace(/\/edit$/, '/exec');
-    inp.value = url;
-  }
-  
-  if (!url.startsWith('https://script.google.com/macros/s/')) {
-    showToast('Format URL salah. Harus diawali https://script.google.com/macros/s/ dan berakhiran /exec', 'error');
-    return;
-  }
-  
-  if (statusBox) {
-    statusBox.style.display = 'block';
-    statusBox.style.background = '#f1f5f9';
-    statusBox.style.border = '1px solid #cbd5e1';
-    statusBox.style.color = '#334155';
-    statusBox.innerHTML = '<div style="display:flex; align-items:center; gap:8px;"><span>Menguji koneksi ke Google Apps Script...</span></div>';
-  }
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = 'Menguji...';
-  }
-  
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ action: 'ping', payload: {} })
-  })
-  .then(function(res) { return res.text(); })
-  .then(function(text) {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg><span>Uji Koneksi (Test Ping)</span>';
-    }
-    try {
-      const data = JSON.parse(text);
-      if (data && data.success) {
-        if (statusBox) {
-          statusBox.style.background = '#ecfdf5';
-          statusBox.style.border = '1px solid #a7f3d0';
-          statusBox.style.color = '#065f46';
-          statusBox.innerHTML = '<strong>Koneksi Berhasil!</strong> Google Apps Script terhubung dengan lancar.<br><span style="font-size:11.5px; color:#047857;">' + escapeHtml(data.message) + '</span>';
-        }
-        showToast('Koneksi ke Google Apps Script Berhasil!', 'success');
-      } else {
-        if (statusBox) {
-          statusBox.style.background = '#fef3c7';
-          statusBox.style.border = '1px solid #fde68a';
-          statusBox.style.color = '#92400e';
-          statusBox.innerHTML = '<strong>Respon Server:</strong> ' + escapeHtml((data && data.message) ? data.message : 'Respon tidak sesuai.');
-        }
-      }
-    } catch (e) {
-      if (statusBox) {
-        statusBox.style.background = '#fff1f2';
-        statusBox.style.border = '1px solid #fecdd3';
-        statusBox.style.color = '#9f1239';
-        statusBox.innerHTML = '<strong>Respon Bukan JSON:</strong> Script mengembalikan HTML/Teks biasa.<br>' +
-          'Pastikan kode terbaru <code>code.gs</code> sudah di-copy ke editor Apps Script dan di-deploy sebagai <strong>New version</strong>.';
-      }
-    }
-  })
-  .catch(function(err) {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg><span>Uji Koneksi (Test Ping)</span>';
-    }
-    if (statusBox) {
-      statusBox.style.background = '#fff1f2';
-      statusBox.style.border = '1px solid #fecdd3';
-      statusBox.style.color = '#9f1239';
-      statusBox.innerHTML = '<strong>Koneksi Gagal (Failed to fetch):</strong> Browser memblokir koneksi ke Apps Script.<br>' +
-        '<strong>Penyebab Utama:</strong><br>' +
-        '1. Akses Web App di Apps Script belum disetel ke <strong>Who has access: Anyone</strong> (Siapa saja).<br>' +
-        '2. Kode di Apps Script belum diperbarui dengan fungsi <code>doPost</code> dan belum dibuat <strong>New version</strong>.<br>' +
-        '<div style="margin-top:8px;"><a href="' + url + '?action=ping" target="_blank" style="color:#4f46e5; text-decoration:underline; font-weight:700;">Klik di sini untuk uji buka di Tab Baru</a> &rarr; Jika Google meminta login, berarti aksesnya belum disetel ke Anyone!</div>';
-    }
-  });
-}
-
-function saveGasApiUrl() {
-  const inp = document.getElementById('inputGasApiUrl');
-  let val = inp ? inp.value.trim() : '';
-  if (!val) {
-    showToast('Harap masukkan URL Web App Google Apps Script.', 'error');
-    return;
-  }
-  if (!val.startsWith('http')) {
-    showToast('Format URL tidak valid (harus diawali https://).', 'error');
-    return;
-  }
-  if (val.endsWith('/edit')) {
-    val = val.replace(/\/edit$/, '/exec');
-  }
-  localStorage.setItem('sipandu_gas_url', val);
-  closeGasConfigModal();
-  showToast('URL Google Apps Script berhasil disimpan! Menyegarkan data...', 'success');
-  setTimeout(function() {
-    location.reload();
-  }, 800);
 }
 
 function showToast(message, type) {
@@ -5076,54 +4926,6 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 </script>
-
-<!-- GAS Web App URL Config Modal for Vercel -->
-<div id="gasConfigModal" class="custom-modal-overlay no-print" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(15,23,42,0.6); z-index:99999; align-items:center; justify-content:center;">
-  <div style="background:#fff; border-radius:12px; width:92%; max-width:540px; padding:24px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1); border:1px solid #e2e8f0; max-height:90vh; overflow-y:auto;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <h3 style="font-size:16px; font-weight:800; color:#0f172a; margin:0; display:flex; align-items:center; gap:8px;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-        <span>Koneksi Google Apps Script API</span>
-      </h3>
-      <button type="button" style="background:none; border:none; font-size:22px; cursor:pointer; color:#64748b; line-height:1;" onclick="closeGasConfigModal()">&times;</button>
-    </div>
-    
-    <p style="font-size:12.5px; color:#475569; line-height:1.5; margin-bottom:16px;">
-      Agar Sipandu di Vercel dapat membaca dan menyimpan data ke Google Sheets & Google Drive Anda, masukkan URL Web App Google Apps Script Anda (akhiran <code>/exec</code>).
-    </p>
-
-    <div class="form-group" style="margin-bottom:12px;">
-      <label class="form-label" style="font-weight:700; font-size:12px; color:#1e293b; margin-bottom:6px; display:block;">URL Web App Google Apps Script</label>
-      <input type="url" id="inputGasApiUrl" class="form-input" placeholder="https://script.google.com/macros/s/.../exec" style="font-size:12px; width:100%; box-sizing:border-box;">
-    </div>
-
-    <!-- Status Uji Koneksi -->
-    <div id="gasTestStatusBox" style="display:none; padding:12px 14px; border-radius:8px; font-size:12px; line-height:1.5; margin-bottom:16px;"></div>
-
-    <!-- Petunjuk Singkat Antisipasi Failed to fetch -->
-    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px 14px; font-size:11.5px; color:#475569; margin-bottom:18px;">
-      <div style="font-weight:700; color:#0f172a; margin-bottom:4px;">Langkah Wajib di Google Apps Script:</div>
-      <ol style="margin:0; padding-left:16px; display:flex; flex-direction:column; gap:4px;">
-        <li>Di Apps Script, pilih <strong>Deploy</strong> &gt; <strong>Manage deployments</strong>.</li>
-        <li>Klik ikon <strong>Pensil (Edit)</strong>.</li>
-        <li>Ubah <strong>Who has access</strong> menjadi <strong>Anyone</strong> (Siapa saja).</li>
-        <li>Pada bagian <strong>Version</strong>, pilih <strong>New version</strong> (Versi baru).</li>
-        <li>Klik <strong>Deploy</strong>. Salin URL Web App yang berakhiran <code>/exec</code>.</li>
-      </ol>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-      <button type="button" id="btnTestGasConn" class="btn btn-secondary" onclick="testGasConnection()" style="font-size:12px; padding:8px 14px; display:flex; align-items:center; gap:6px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-        <span>Uji Koneksi (Test Ping)</span>
-      </button>
-      <div style="display:flex; gap:8px;">
-        <button type="button" class="btn btn-secondary" onclick="closeGasConfigModal()" style="font-size:12px;">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveGasApiUrl()" style="font-size:12px;">Simpan & Hubungkan</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
